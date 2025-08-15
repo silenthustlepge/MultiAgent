@@ -13,7 +13,7 @@ from datetime import datetime
 from typing import Dict, List, Any
 
 # Backend URL from environment
-BACKEND_URL = "https://agent-nexus-6.preview.emergentagent.com/api"
+BACKEND_URL = "https://continuous-growth.preview.emergentagent.com/api"
 WEBSOCKET_URL = "wss://agent-nexus-6.preview.emergentagent.com/api/ws"
 
 class WebSocketTester:
