@@ -1196,6 +1196,7 @@ async def generate_conversation_summary(conversation_id: str):
         
         # Create and save summary
         conversation_summary = ConversationSummary(
+            id=str(uuid.uuid4()),
             conversation_id=conversation_id,
             summary=summary,
             key_insights=key_insights,
