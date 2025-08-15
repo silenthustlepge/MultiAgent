@@ -3,7 +3,7 @@
     "test": "Root Endpoint",
     "success": true,
     "details": "Status: 200, Message: Multi-Agent Chat Platform API",
-    "timestamp": "2025-08-15T02:39:10.241891",
+    "timestamp": "2025-08-15T02:42:02.356719",
     "response_data": {
       "message": "Multi-Agent Chat Platform API"
     }
@@ -12,7 +12,7 @@
     "test": "Get Agents",
     "success": true,
     "details": "All 4 agents configured correctly: strategist: Strategist (deepseek-ai/DeepSeek-R1-Distill-Llama-70B), creator: Creator (meta-llama/Llama-3.3-70B-Instruct-Turbo-Free), analyst: Analyst (lgai/exaone-3-5-32b-instruct), visualizer: Visualizer (black-forest-labs/FLUX.1-schnell-Free)",
-    "timestamp": "2025-08-15T02:39:10.252894",
+    "timestamp": "2025-08-15T02:42:02.366905",
     "response_data": {
       "strategist": {
         "name": "Strategist",
@@ -47,25 +47,27 @@
   {
     "test": "Start Conversation",
     "success": true,
-    "details": "Conversation started with ID: 0acd1f67-31d9-4681-8ea4-cda1e829fe86",
-    "timestamp": "2025-08-15T02:39:10.283126",
+    "details": "Conversation started with ID: e23054ad-ca45-4442-94a7-4446b7eafcc3",
+    "timestamp": "2025-08-15T02:42:02.382928",
     "response_data": {
-      "conversation_id": "0acd1f67-31d9-4681-8ea4-cda1e829fe86",
+      "conversation_id": "e23054ad-ca45-4442-94a7-4446b7eafcc3",
       "status": "started"
     }
   },
   {
     "test": "Add User Message",
-    "success": false,
-    "details": "HTTP 500: Internal Server Error",
-    "timestamp": "2025-08-15T02:39:10.311748",
-    "response_data": null
+    "success": true,
+    "details": "User message added successfully",
+    "timestamp": "2025-08-15T02:42:02.399954",
+    "response_data": {
+      "status": "message_added"
+    }
   },
   {
     "test": "Get Messages",
     "success": true,
     "details": "Retrieved 1 messages",
-    "timestamp": "2025-08-15T02:39:10.320843",
+    "timestamp": "2025-08-15T02:42:02.452631",
     "response_data": {
       "message_count": 1
     }
@@ -74,14 +76,14 @@
     "test": "API Stats",
     "success": true,
     "details": "All 8 API keys properly configured and tracked",
-    "timestamp": "2025-08-15T02:39:10.369436",
+    "timestamp": "2025-08-15T02:42:02.463686",
     "response_data": {
       "api_keys": [
         {
           "keyId": "together-ai-CartoonKeeda",
-          "requestCount": 0,
+          "requestCount": 1,
           "rateLimit": 60,
-          "utilizationPercent": 0.0
+          "utilizationPercent": 1.6666666666666667
         },
         {
           "keyId": "together-key-itspg",
@@ -132,30 +134,24 @@
     "test": "Key Pool Management",
     "success": false,
     "details": "No increase in request count detected",
-    "timestamp": "2025-08-15T02:39:13.415980",
+    "timestamp": "2025-08-15T02:42:05.522485",
     "response_data": null
   },
   {
     "test": "Generate Conversation",
-    "success": true,
-    "details": "Agent conversation generated successfully - Together.ai integration working",
-    "timestamp": "2025-08-15T02:39:48.693427",
-    "response_data": {
-      "status": "conversation_generated"
-    }
-  },
-  {
-    "test": "Agent Message Generation",
-    "success": true,
-    "details": "Generated 9 agent messages",
-    "timestamp": "2025-08-15T02:39:50.706637",
+    "success": false,
+    "details": "Exception: ",
+    "timestamp": "2025-08-15T02:43:05.582994",
     "response_data": null
   },
   {
     "test": "Image Generation",
-    "success": false,
-    "details": "HTTP 500: {\"detail\":\"Object of type datetime is not JSON serializable\"}",
-    "timestamp": "2025-08-15T02:39:52.641718",
-    "response_data": null
+    "success": true,
+    "details": "Image generated successfully: https://api.together.ai/shrt/axpEtY7syWc5bclu",
+    "timestamp": "2025-08-15T02:43:08.340702",
+    "response_data": {
+      "status": "image_generated",
+      "url": "https://api.together.ai/shrt/axpEtY7syWc5bclu"
+    }
   }
 ]
