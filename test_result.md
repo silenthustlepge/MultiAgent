@@ -165,15 +165,18 @@ frontend:
 
   - task: "Real-time WebSocket Chat"
     implemented: true
-    working: false  # needs testing
+    working: false
     file: "App.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "WebSocket integration implemented for real-time agent message updates. Needs testing to verify bidirectional communication."
+        - working: false
+          agent: "testing"
+          comment: "CRITICAL ISSUE: Agent messages are not displaying in the chat interface. While the backend generates agent responses successfully, the frontend WebSocket connection is not receiving or displaying these messages. Chat area remains empty despite API calls completing. User messages also fail to appear in chat. This breaks the core multi-agent collaboration functionality."
 
 metadata:
   created_by: "main_agent"
