@@ -204,8 +204,8 @@ def get_next_available_key():
     return selected_key
 
 # Together.ai API Integration
-async def call_together_ai(prompt: str, model: str, max_tokens: int = 1000):
-    """Make API call to Together.ai"""
+async def call_together_ai(prompt: str, model: str, max_tokens: int = 1000, stream: bool = False):
+    """Make API call to Together.ai with optional streaming"""
     key_info = get_next_available_key()
     
     headers = {
@@ -224,6 +224,7 @@ async def call_together_ai(prompt: str, model: str, max_tokens: int = 1000):
             "n": 1
         }
         url = "https://api.together.xyz/v1/images/generations"
+        stream = False  # Image generation doesn't support streaming
     else:
         payload = {
             "model": model,
@@ -231,7 +232,8 @@ async def call_together_ai(prompt: str, model: str, max_tokens: int = 1000):
                 {"role": "user", "content": prompt}
             ],
             "max_tokens": max_tokens,
-            "temperature": 0.7
+            "temperature": 0.7,
+            "stream": stream
         }
         url = "https://api.together.xyz/v1/chat/completions"
     
