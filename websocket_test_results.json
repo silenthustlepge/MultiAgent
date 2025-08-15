@@ -1,0 +1,44 @@
+[
+  {
+    "test": "Setup Conversation",
+    "success": true,
+    "details": "Created conversation: f84cf19b-315a-4f4f-aacc-28cb451b7d90",
+    "timestamp": "2025-08-15T03:14:01.776870",
+    "response_data": null
+  },
+  {
+    "test": "WebSocket Connection",
+    "success": false,
+    "details": "Connection failed: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
+    "timestamp": "2025-08-15T03:14:01.794702",
+    "response_data": null
+  },
+  {
+    "test": "WebSocket User Message Broadcast",
+    "success": false,
+    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
+    "timestamp": "2025-08-15T03:14:01.795003",
+    "response_data": null
+  },
+  {
+    "test": "WebSocket Agent Conversation Broadcast",
+    "success": false,
+    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
+    "timestamp": "2025-08-15T03:14:01.795258",
+    "response_data": null
+  },
+  {
+    "test": "WebSocket Image Generation Broadcast",
+    "success": false,
+    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
+    "timestamp": "2025-08-15T03:14:01.795486",
+    "response_data": null
+  },
+  {
+    "test": "End-to-End WebSocket Flow",
+    "success": false,
+    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
+    "timestamp": "2025-08-15T03:14:01.795723",
+    "response_data": null
+  }
+]
