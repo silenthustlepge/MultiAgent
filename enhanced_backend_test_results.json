@@ -1,0 +1,266 @@
+[
+  {
+    "test": "System Health",
+    "success": true,
+    "details": "Status: degraded, DB: error: MotorCollection object is not callable. If you meant to call the 'admin.command' method on a MotorCollection object it is failing because no such method exists., Active Keys: 8/8, Total Requests: 2",
+    "timestamp": "2025-08-15T04:50:24.146499",
+    "response_data": {
+      "status": "degraded",
+      "database": "error: MotorCollection object is not callable. If you meant to call the 'admin.command' method on a MotorCollection object it is failing because no such method exists.",
+      "api_keys": {
+        "active": 8,
+        "total": 8,
+        "total_requests": 2,
+        "total_errors": 0,
+        "error_rate": 0.0
+      },
+      "websocket_connections": {
+        "total_connections": 1,
+        "active_connections": 1,
+        "messages_sent": 4
+      },
+      "timestamp": "2025-08-15T04:50:24.142580"
+    }
+  },
+  {
+    "test": "Enhanced Stats",
+    "success": true,
+    "details": "Enhanced stats with performance metrics: 8 keys with full metrics, Summary includes: ['total_keys', 'active_keys', 'total_requests', 'total_errors', 'avg_response_time']",
+    "timestamp": "2025-08-15T04:50:24.160166",
+    "response_data": {
+      "api_keys": [
+        {
+          "keyId": "together-ai-CartoonKeeda",
+          "requestCount": 1,
+          "rateLimit": 60,
+          "utilizationPercent": 1.6666666666666667,
+          "totalRequests": 1,
+          "errors": 0,
+          "avgResponseTime": 22.811,
+          "status": "active",
+          "errorRate": 0.0
+        },
+        {
+          "keyId": "together-key-itspg",
+          "requestCount": 1,
+          "rateLimit": 60,
+          "utilizationPercent": 1.6666666666666667,
+          "totalRequests": 1,
+          "errors": 0,
+          "avgResponseTime": 0.0,
+          "status": "active",
+          "errorRate": 0.0
+        },
+        {
+          "keyId": "together-key-OneLastTry",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0,
+          "totalRequests": 0,
+          "errors": 0,
+          "avgResponseTime": 0.0,
+          "status": "active",
+          "errorRate": 0.0
+        },
+        {
+          "keyId": "together-key-SilentHustle",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0,
+          "totalRequests": 0,
+          "errors": 0,
+          "avgResponseTime": 0.0,
+          "status": "active",
+          "errorRate": 0.0
+        },
+        {
+          "keyId": "together-key-pgCAN",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0,
+          "totalRequests": 0,
+          "errors": 0,
+          "avgResponseTime": 0.0,
+          "status": "active",
+          "errorRate": 0.0
+        },
+        {
+          "keyId": "together-key-MRGEdits",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0,
+          "totalRequests": 0,
+          "errors": 0,
+          "avgResponseTime": 0.0,
+          "status": "active",
+          "errorRate": 0.0
+        },
+        {
+          "keyId": "together-key-PTY49",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0,
+          "totalRequests": 0,
+          "errors": 0,
+          "avgResponseTime": 0.0,
+          "status": "active",
+          "errorRate": 0.0
+        },
+        {
+          "keyId": "together-key-ShopsterZone",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0,
+          "totalRequests": 0,
+          "errors": 0,
+          "avgResponseTime": 0.0,
+          "status": "active",
+          "errorRate": 0.0
+        }
+      ],
+      "summary": {
+        "total_keys": 8,
+        "active_keys": 8,
+        "total_requests": 2,
+        "total_errors": 0,
+        "avg_response_time": 2.851324051618576
+      }
+    }
+  },
+  {
+    "test": "Enhanced Autonomous Collaboration",
+    "success": true,
+    "details": "Started autonomous collaboration with streaming: f3fb4851-3ed5-4ac9-a4d6-26942bc98939, Mode: autonomous",
+    "timestamp": "2025-08-15T04:50:24.176690",
+    "response_data": {
+      "conversation_id": "f3fb4851-3ed5-4ac9-a4d6-26942bc98939",
+      "status": "started",
+      "mode": "autonomous",
+      "agents": [
+        "strategist",
+        "creator",
+        "analyst",
+        "visualizer"
+      ],
+      "streaming_enabled": true,
+      "message": "Enhanced autonomous collaboration initiated"
+    }
+  },
+  {
+    "test": "Autonomous Message Generation",
+    "success": true,
+    "details": "Generated 1 autonomous messages",
+    "timestamp": "2025-08-15T04:50:34.228852",
+    "response_data": null
+  },
+  {
+    "test": "Conversation Summary",
+    "success": false,
+    "details": "HTTP 500: {\"detail\":\"1 validation error for ConversationSummary\\nid\\n  Field required [type=missing, input_value={'conversation_id': 'f3fb...onsensus_reached': True}, input_type=dict]\\n    For further information visit https://errors.pydantic.dev/2.11/v/missing\"}",
+    "timestamp": "2025-08-15T04:50:41.213390",
+    "response_data": null
+  },
+  {
+    "test": "Conversation Export JSON",
+    "success": true,
+    "details": "JSON export successful with 2 messages",
+    "timestamp": "2025-08-15T04:50:41.223754",
+    "response_data": null
+  },
+  {
+    "test": "Conversation Export Markdown",
+    "success": true,
+    "details": "Markdown export successful: 421 characters",
+    "timestamp": "2025-08-15T04:50:41.274648",
+    "response_data": null
+  },
+  {
+    "test": "Agent Analytics",
+    "success": true,
+    "details": "Analytics for 1 agents: ['creator'], Total messages: 2",
+    "timestamp": "2025-08-15T04:50:41.324775",
+    "response_data": {
+      "agent_metrics": [
+        {
+          "agent_type": "creator",
+          "total_messages": 2,
+          "avg_response_time": 0.0,
+          "total_tokens": 0,
+          "error_rate": 0.0,
+          "last_active": "2025-08-15T04:50:25.385520",
+          "agent_config": {
+            "name": "Creator",
+            "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+            "role": "Creative content generation",
+            "persona": "You are a creative and productive generator. You take ideas and quickly turn them into concrete content, stories, or solutions. You're action-oriented and love bringing concepts to life.",
+            "color": "#10B981",
+            "icon": "\u2728",
+            "strengths": [
+              "Creative thinking",
+              "Rapid prototyping",
+              "Content generation"
+            ],
+            "specialty": "Fast content generation and execution"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "test": "Enhanced WebSocket",
+    "success": false,
+    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
+    "timestamp": "2025-08-15T04:50:41.342858",
+    "response_data": null
+  },
+  {
+    "test": "Enhanced Polling",
+    "success": true,
+    "details": "Enhanced polling working: 2 messages, 2 with enhanced fields, Status: completed",
+    "timestamp": "2025-08-15T04:50:41.355407",
+    "response_data": {
+      "conversation_id": "f3fb4851-3ed5-4ac9-a4d6-26942bc98939",
+      "messages": [
+        {
+          "id": "4acd4455-4786-49a0-a16d-28242f8bb44f",
+          "content": "\ud83d\ude80 Starting CollaborationMode.AUTONOMOUS collaboration on: Future of AI-Human Collaboration in Creative Industries",
+          "agent_type": null,
+          "timestamp": "2025-08-15T04:50:24.172146",
+          "is_user": true,
+          "image_url": null,
+          "streaming_status": null,
+          "response_time": null,
+          "token_count": null
+        },
+        {
+          "id": "685a68c7-fb56-4723-ae1d-bf028911e362",
+          "content": "\ud83c\udfaf **CONSENSUS REACHED** \ud83c\udfaf\n\nCollaborative solution achieved\n\n*Confidence: 85.0% | Completed in 3 rounds*",
+          "agent_type": null,
+          "timestamp": "2025-08-15T04:50:30.182429",
+          "is_user": false,
+          "image_url": null,
+          "streaming_status": null,
+          "response_time": null,
+          "token_count": null
+        }
+      ],
+      "total_messages": 2,
+      "last_updated": "2025-08-15T04:50:41.352397",
+      "conversation_status": "completed"
+    }
+  },
+  {
+    "test": "Streaming Indicators",
+    "success": false,
+    "details": "No streaming status indicators found",
+    "timestamp": "2025-08-15T04:50:51.522915",
+    "response_data": null
+  },
+  {
+    "test": "Retry Logic & Error Handling",
+    "success": true,
+    "details": "Error handling working well: 0 errors out of 5 requests (0.0% error rate)",
+    "timestamp": "2025-08-15T04:50:54.129517",
+    "response_data": null
+  }
+]
