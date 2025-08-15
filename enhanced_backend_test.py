@@ -267,7 +267,7 @@ class EnhancedBackendTester:
             
             # Test WebSocket connection with timeout
             try:
-                async with websockets.connect(websocket_url, timeout=10) as websocket:
+                async with websockets.connect(websocket_url) as websocket:
                     # Wait for connection confirmation
                     message = await asyncio.wait_for(websocket.recv(), timeout=5)
                     data = json.loads(message)
@@ -279,16 +279,16 @@ class EnhancedBackendTester:
                             await self.log_test("Enhanced WebSocket Connection", True, 
                                               f"Connection established with features: {features}")
                             
-                            # Wait for heartbeat
+                            # Wait for heartbeat (reduced timeout since heartbeat is every 30s)
                             try:
-                                heartbeat = await asyncio.wait_for(websocket.recv(), timeout=35)
+                                heartbeat = await asyncio.wait_for(websocket.recv(), timeout=10)
                                 heartbeat_data = json.loads(heartbeat)
                                 if heartbeat_data.get("type") == "heartbeat":
                                     await self.log_test("WebSocket Heartbeat", True, "Heartbeat system working")
                                 else:
                                     await self.log_test("WebSocket Heartbeat", False, f"Expected heartbeat, got: {heartbeat_data.get('type')}")
                             except asyncio.TimeoutError:
-                                await self.log_test("WebSocket Heartbeat", False, "No heartbeat received within 35 seconds")
+                                await self.log_test("WebSocket Heartbeat", False, "No heartbeat received within 10 seconds (heartbeat every 30s)")
                         else:
                             await self.log_test("Enhanced WebSocket Connection", False, f"Missing features or conversation_id in connection data: {connection_data}")
                     else:
