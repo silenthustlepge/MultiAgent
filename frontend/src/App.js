@@ -124,8 +124,21 @@ const App = () => {
       // Setup WebSocket for real-time updates
       setupWebSocket(conversationId);
       
+      // Load existing messages for this conversation
+      await loadConversationMessages(conversationId);
+      
     } catch (error) {
       console.error('Error starting conversation:', error);
+    }
+  };
+
+  const loadConversationMessages = async (conversationId) => {
+    try {
+      const response = await axios.get(`${API}/conversation/${conversationId}/messages`);
+      console.log('Loaded existing messages:', response.data);
+      setMessages(response.data);
+    } catch (error) {
+      console.error('Error loading conversation messages:', error);
     }
   };
 
