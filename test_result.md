@@ -189,11 +189,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Multi-Agent Chat Backend API"
-    - "API Key Pool Management"
-    - "Together.ai Integration"
     - "Real-time WebSocket Chat"
-  stuck_tasks: []
+    - "Multi-Agent Chat Interface"
+  stuck_tasks:
+    - "Real-time WebSocket Chat"
+    - "Multi-Agent Chat Interface"
   test_all: false
   test_priority: "high_first"
 
