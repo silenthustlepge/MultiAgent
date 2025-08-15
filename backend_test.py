@@ -333,6 +333,7 @@ class BackendTester:
         await self.test_start_conversation()
         await self.test_add_user_message()
         await self.test_get_messages()
+        await self.test_polling_endpoint()  # NEW: Test polling fallback system
         await self.test_api_stats()
         
         # Advanced Integration Tests
