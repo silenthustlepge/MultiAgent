@@ -65,55 +65,97 @@ const App = () => {
     }
   };
 
-  const setupWebSocket = (conversationId) => {
-    // Close existing WebSocket if any
+  const [isPolling, setIsPolling] = React.useState(false);
+  const [lastMessageCount, setLastMessageCount] = React.useState(0);
+  const pollingRef = React.useRef(null);
+
+  const setupRealTimeUpdates = (conversationId) => {
+    // Close existing connections
     if (wsRef.current) {
       wsRef.current.close();
     }
-
-    // Properly construct WebSocket URL for production environment with /api prefix
-    let wsUrl;
-    if (BACKEND_URL.includes('emergentagent.com')) {
-      wsUrl = `wss://keyvault-bulk.preview.emergentagent.com/api/ws/${conversationId}`;
-    } else {
-      wsUrl = `${BACKEND_URL.replace('http', 'ws')}/api/ws/${conversationId}`;
+    if (pollingRef.current) {
+      clearInterval(pollingRef.current);
     }
-    
-    console.log('Setting up WebSocket:', wsUrl);
-    wsRef.current = new WebSocket(wsUrl);
-    
-    wsRef.current.onopen = () => {
-      console.log('WebSocket connected successfully');
-    };
-    
-    wsRef.current.onmessage = (event) => {
-      try {
-        console.log('WebSocket message received:', event.data);
-        const data = JSON.parse(event.data);
-        console.log('Parsed WebSocket data:', data);
-        
-        if (data.type === 'connection_established') {
-          console.log('WebSocket connection confirmed:', data.data.message);
-        } else if (data.type === 'agent_message' || data.type === 'user_message') {
-          console.log('Adding message to state:', data.data);
-          setMessages(prev => {
-            const newMessages = [...prev, data.data];
-            console.log('Updated messages state:', newMessages);
-            return newMessages;
-          });
-        }
-      } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
+
+    // Try WebSocket first
+    const setupWebSocket = () => {
+      let wsUrl;
+      if (BACKEND_URL.includes('emergentagent.com')) {
+        wsUrl = `wss://keyvault-bulk.preview.emergentagent.com/api/ws/${conversationId}`;
+      } else {
+        wsUrl = `${BACKEND_URL.replace('http', 'ws')}/api/ws/${conversationId}`;
       }
+      
+      console.log('🔌 Attempting WebSocket connection:', wsUrl);
+      wsRef.current = new WebSocket(wsUrl);
+      
+      wsRef.current.onopen = () => {
+        console.log('✅ WebSocket connected successfully');
+        setIsPolling(false);
+      };
+      
+      wsRef.current.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === 'connection_established') {
+            console.log('✅ WebSocket connection confirmed:', data.data.message);
+          } else if (data.type === 'agent_message' || data.type === 'user_message') {
+            console.log('📨 WebSocket message received:', data.data);
+            setMessages(prev => {
+              const newMessages = [...prev, data.data];
+              setLastMessageCount(newMessages.length);
+              return newMessages;
+            });
+          }
+        } catch (error) {
+          console.error('❌ Error parsing WebSocket message:', error);
+        }
+      };
+
+      wsRef.current.onerror = (error) => {
+        console.warn('⚠️ WebSocket error, falling back to polling:', error);
+        setupPolling(conversationId);
+      };
+
+      wsRef.current.onclose = (event) => {
+        if (event.code === 1006 || event.code === 1011 || event.code === 1005) {
+          console.warn('⚠️ WebSocket connection failed (403/auth issue), using polling fallback');
+          setupPolling(conversationId);
+        } else {
+          console.log('🔌 WebSocket connection closed normally:', event.code, event.reason);
+        }
+      };
     };
 
-    wsRef.current.onerror = (error) => {
-      console.error('WebSocket error:', error);
+    // Polling fallback for restricted environments
+    const setupPolling = (conversationId) => {
+      console.log('🔄 Setting up polling fallback for real-time updates');
+      setIsPolling(true);
+      
+      const pollMessages = async () => {
+        try {
+          const response = await axios.get(`${API}/conversation/${conversationId}/poll`);
+          const { messages } = response.data;
+          
+          if (messages.length !== lastMessageCount) {
+            console.log(`🔄 Polling: ${messages.length} messages (was ${lastMessageCount})`);
+            setMessages(messages);
+            setLastMessageCount(messages.length);
+          }
+        } catch (error) {
+          console.error('❌ Polling error:', error);
+        }
+      };
+
+      // Poll every 2 seconds
+      pollingRef.current = setInterval(pollMessages, 2000);
+      // Initial poll
+      pollMessages();
     };
 
-    wsRef.current.onclose = (event) => {
-      console.log('WebSocket connection closed:', event.code, event.reason);
-    };
+    // Start with WebSocket attempt
+    setupWebSocket();
   };
 
   const startNewConversation = async () => {
