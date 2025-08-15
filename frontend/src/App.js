@@ -392,6 +392,59 @@ const App = () => {
               ))}
             </div>
 
+            {/* Collaboration Mode Selection */}
+            <div className="mb-4">
+              <h3 className="text-lg font-medium mb-2">Collaboration Mode:</h3>
+              <div className="space-y-2">
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="collaborationMode"
+                    value="single_turn"
+                    checked={collaborationMode === 'single_turn'}
+                    onChange={(e) => setCollaborationMode(e.target.value)}
+                    className="mr-3"
+                  />
+                  <div>
+                    <span className="font-medium">Single Turn</span>
+                    <p className="text-sm text-gray-400">Each agent responds once</p>
+                  </div>
+                </label>
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="collaborationMode"
+                    value="autonomous"
+                    checked={collaborationMode === 'autonomous'}
+                    onChange={(e) => setCollaborationMode(e.target.value)}
+                    className="mr-3"
+                  />
+                  <div>
+                    <span className="font-medium text-purple-400">🤖 Autonomous</span>
+                    <p className="text-sm text-gray-400">Agents collaborate until consensus</p>
+                  </div>
+                </label>
+              </div>
+              
+              {collaborationMode === 'autonomous' && (
+                <div className="mt-3 p-3 bg-gray-700 rounded-lg">
+                  <label className="flex items-center justify-between">
+                    <span className="text-sm">Max Rounds:</span>
+                    <input
+                      type="range"
+                      min="3"
+                      max="15"
+                      value={maxRounds}
+                      onChange={(e) => setMaxRounds(parseInt(e.target.value))}
+                      className="ml-3 w-20"
+                    />
+                    <span className="text-sm ml-2">{maxRounds}</span>
+                  </label>
+                </div>
+              )}
+            </div>
+
+            {/* Start Button */}
             <button
               onClick={startNewConversation}
               className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-lg font-semibold transition-colors"
