@@ -23,6 +23,14 @@ const App = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [apiStats, setApiStats] = useState(null);
   const [imagePrompt, setImagePrompt] = useState('');
+  
+  // New autonomous collaboration states
+  const [collaborationMode, setCollaborationMode] = useState('single_turn');
+  const [isCollaborating, setIsCollaborating] = useState(false);
+  const [consensusStatus, setConsensusStatus] = useState(null);
+  const [currentRound, setCurrentRound] = useState(0);
+  const [maxRounds, setMaxRounds] = useState(8);
+  
   const messagesEndRef = useRef(null);
   const wsRef = useRef(null);
 
