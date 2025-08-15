@@ -7,7 +7,7 @@ import asyncio
 import httpx
 import json
 
-BACKEND_URL = "https://keyvault-bulk.preview.emergentagent.com/api"
+BACKEND_URL = "https://agent-nexus-6.preview.emergentagent.com/api"
 
 async def final_test():
     client = httpx.AsyncClient(timeout=60.0)
