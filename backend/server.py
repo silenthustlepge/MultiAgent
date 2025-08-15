@@ -342,7 +342,14 @@ async def get_conversation_messages(conversation_id: str):
         {"conversation_id": conversation_id}
     ).sort("timestamp", 1).to_list(1000)
     
-    return [ChatMessage(**msg) for msg in messages]
+    # Convert MongoDB documents to ChatMessage objects, removing _id
+    result = []
+    for msg in messages:
+        if "_id" in msg:
+            del msg["_id"]
+        result.append(ChatMessage(**msg))
+    
+    return result
 
 @api_router.post("/conversation/{conversation_id}/generate")
 async def generate_agent_conversation(conversation_id: str):
