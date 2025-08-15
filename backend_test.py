@@ -202,6 +202,50 @@ class BackendTester:
         except Exception as e:
             await self.log_test("Generate Conversation", False, f"Exception: {str(e)}")
     
+    async def test_polling_endpoint(self):
+        """Test GET /api/conversation/{id}/poll endpoint - NEW Polling Fallback System"""
+        if not self.conversation_id:
+            await self.log_test("Polling Endpoint", False, "No conversation ID available")
+            return
+            
+        try:
+            print("🔄 Testing new polling endpoint for real-time updates...")
+            response = await self.client.get(f"{BACKEND_URL}/conversation/{self.conversation_id}/poll")
+            
+            if response.status_code == 200:
+                data = response.json()
+                required_fields = ["conversation_id", "messages", "total_messages"]
+                
+                if all(field in data for field in required_fields):
+                    if data["conversation_id"] == self.conversation_id:
+                        message_count = data["total_messages"]
+                        messages = data["messages"]
+                        
+                        # Validate message format
+                        if isinstance(messages, list):
+                            valid_messages = 0
+                            for msg in messages:
+                                if all(key in msg for key in ["id", "content", "agent_type", "timestamp"]):
+                                    valid_messages += 1
+                            
+                            if valid_messages == len(messages):
+                                await self.log_test("Polling Endpoint", True, 
+                                                  f"Polling endpoint working - retrieved {message_count} messages with proper format", data)
+                            else:
+                                await self.log_test("Polling Endpoint", False, 
+                                                  f"Message format validation failed - {valid_messages}/{len(messages)} messages valid")
+                        else:
+                            await self.log_test("Polling Endpoint", False, f"Messages field is not a list: {type(messages)}")
+                    else:
+                        await self.log_test("Polling Endpoint", False, f"Conversation ID mismatch: expected {self.conversation_id}, got {data['conversation_id']}")
+                else:
+                    missing_fields = [field for field in required_fields if field not in data]
+                    await self.log_test("Polling Endpoint", False, f"Missing required fields: {missing_fields}")
+            else:
+                await self.log_test("Polling Endpoint", False, f"HTTP {response.status_code}: {response.text}")
+        except Exception as e:
+            await self.log_test("Polling Endpoint", False, f"Exception: {str(e)}")
+
     async def test_image_generation(self):
         """Test POST /api/image/generate endpoint - FLUX Model Test"""
         if not self.conversation_id:
