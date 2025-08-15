@@ -336,6 +336,79 @@ async def generate_agent_response(agent_type: AgentType, conversation_context: s
     response = await call_together_ai(prompt, agent_config['model'])
     return response
 
+# Agent System with Streaming
+async def generate_agent_response_stream(agent_type: AgentType, conversation_context: str, topic: str, conversation_id: str):
+    """Generate streaming response from specific agent"""
+    agent_config = AGENT_MODELS[agent_type.value]
+    
+    prompt = f"""
+    {agent_config['persona']}
+
+    Topic: {topic}
+    
+    Previous conversation context:
+    {conversation_context}
+    
+    Please provide your perspective on this topic. Keep your response focused, insightful, and true to your role as {agent_config['name']}.
+    Respond in 2-3 sentences maximum.
+    """
+    
+    # Create initial message object
+    chat_message = ChatMessage(
+        conversation_id=conversation_id,
+        agent_type=agent_type,
+        content="",  # Will be filled as we stream
+        is_user=False
+    )
+    
+    # Save initial message to database
+    message_dict = chat_message.dict()
+    message_dict["timestamp"] = message_dict["timestamp"].isoformat()
+    await db.messages.insert_one(message_dict)
+    
+    # Remove MongoDB _id for broadcasting
+    if "_id" in message_dict:
+        del message_dict["_id"]
+    
+    complete_content = ""
+    
+    # Stream the response
+    async for chunk in call_together_ai_stream(prompt, agent_config['model']):
+        complete_content += chunk
+        
+        # Broadcast each chunk via WebSocket
+        streaming_data = message_dict.copy()
+        streaming_data["content"] = complete_content  # Send complete content so far
+        streaming_data["agent_config"] = agent_config
+        streaming_data["is_streaming"] = True
+        
+        await manager.broadcast(json.dumps({
+            "type": "agent_message_stream",
+            "data": streaming_data
+        }))
+        
+        # Small delay to make streaming visible
+        await asyncio.sleep(0.05)
+    
+    # Update the database with final content
+    await db.messages.update_one(
+        {"id": chat_message.id},
+        {"$set": {"content": complete_content}}
+    )
+    
+    # Send final message
+    final_data = message_dict.copy()
+    final_data["content"] = complete_content
+    final_data["agent_config"] = agent_config
+    final_data["is_streaming"] = False
+    
+    await manager.broadcast(json.dumps({
+        "type": "agent_message",
+        "data": final_data
+    }))
+    
+    return complete_content
+
 # API Routes
 @api_router.get("/")
 async def root():
