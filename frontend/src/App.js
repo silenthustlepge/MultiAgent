@@ -92,7 +92,9 @@ const App = () => {
         const data = JSON.parse(event.data);
         console.log('Parsed WebSocket data:', data);
         
-        if (data.type === 'agent_message' || data.type === 'user_message') {
+        if (data.type === 'connection_established') {
+          console.log('WebSocket connection confirmed:', data.data.message);
+        } else if (data.type === 'agent_message' || data.type === 'user_message') {
           console.log('Adding message to state:', data.data);
           setMessages(prev => {
             const newMessages = [...prev, data.data];
