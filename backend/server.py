@@ -204,6 +204,53 @@ def get_next_available_key():
     return selected_key
 
 # Together.ai API Integration
+async def call_together_ai_stream(prompt: str, model: str, max_tokens: int = 1000):
+    """Make streaming API call to Together.ai for text generation"""
+    key_info = get_next_available_key()
+    
+    headers = {
+        "Authorization": f"Bearer {key_info['apiKey']}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "user", "content": prompt}
+        ],
+        "max_tokens": max_tokens,
+        "temperature": 0.7,
+        "stream": True
+    }
+    url = "https://api.together.xyz/v1/chat/completions"
+    
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        try:
+            async with client.stream('POST', url, headers=headers, json=payload) as response:
+                response.raise_for_status()
+                
+                async for line in response.aiter_lines():
+                    if line.strip():
+                        if line.startswith('data: '):
+                            data_str = line[6:]  # Remove 'data: ' prefix
+                            if data_str.strip() == '[DONE]':
+                                break
+                            try:
+                                data = json.loads(data_str)
+                                if 'choices' in data and len(data['choices']) > 0:
+                                    delta = data['choices'][0].get('delta', {})
+                                    if 'content' in delta:
+                                        yield delta['content']
+                            except json.JSONDecodeError:
+                                continue
+                                
+        except httpx.HTTPError as e:
+            logger.error(f"Streaming API call failed: {e}")
+            yield f"Error: API call failed - {str(e)}"
+        except Exception as e:
+            logger.error(f"Unexpected streaming error: {e}")
+            yield f"Error: {str(e)}"
+
 async def call_together_ai(prompt: str, model: str, max_tokens: int = 1000, stream: bool = False):
     """Make API call to Together.ai with optional streaming"""
     key_info = get_next_available_key()
