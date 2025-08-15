@@ -319,12 +319,14 @@ async def add_user_message(conversation_id: str, message: dict):
     )
     
     # Save to database
-    await db.messages.insert_one(chat_message.dict())
+    message_dict = chat_message.dict()
+    message_dict["timestamp"] = message_dict["timestamp"].isoformat()
+    await db.messages.insert_one(message_dict)
     
     # Broadcast to WebSocket connections
     await manager.broadcast(json.dumps({
         "type": "user_message",
-        "data": chat_message.dict()
+        "data": message_dict
     }))
     
     return {"status": "message_added"}
