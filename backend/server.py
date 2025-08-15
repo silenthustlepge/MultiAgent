@@ -323,6 +323,10 @@ async def add_user_message(conversation_id: str, message: dict):
     message_dict["timestamp"] = message_dict["timestamp"].isoformat()
     await db.messages.insert_one(message_dict)
     
+    # Remove MongoDB _id for JSON serialization
+    if "_id" in message_dict:
+        del message_dict["_id"]
+    
     # Broadcast to WebSocket connections
     await manager.broadcast(json.dumps({
         "type": "user_message",
