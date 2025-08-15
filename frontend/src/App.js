@@ -276,6 +276,25 @@ const App = () => {
         <p className="text-center text-gray-400 mt-2">
           Watch AI agents brainstorm and collaborate in real-time
         </p>
+        
+        {/* Connection Status Indicator */}
+        {currentConversation && (
+          <div className="flex justify-center mt-2">
+            <div className="flex items-center text-xs px-3 py-1 rounded-full bg-gray-700">
+              {isPolling ? (
+                <>
+                  <div className="w-2 h-2 bg-yellow-500 rounded-full mr-2 animate-pulse"></div>
+                  <span className="text-yellow-400">Polling Mode (Fallback)</span>
+                </>
+              ) : (
+                <>
+                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                  <span className="text-green-400">Real-time Connection</span>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex h-screen">
