@@ -469,10 +469,11 @@ async def get_api_stats():
         })
     return {"api_keys": stats}
 
-# WebSocket endpoint
-@app.websocket("/ws/{conversation_id}")
+# WebSocket endpoint - must be on main app, not router, for FastAPI compatibility
+@app.websocket("/api/ws/{conversation_id}")
 async def websocket_endpoint(websocket: WebSocket, conversation_id: str):
     await manager.connect(websocket)
+    logger.info(f"WebSocket connected for conversation: {conversation_id}")
     try:
         # Send initial connection confirmation
         await manager.send_personal_message(json.dumps({
