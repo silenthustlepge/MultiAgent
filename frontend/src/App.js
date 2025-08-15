@@ -198,11 +198,29 @@ const App = () => {
     }
 
     try {
-      const response = await axios.post(`${API}/conversation/start`, {
-        topic: newTopic,
-        agents: selectedAgents,
-        message_count: 5
-      });
+      let response;
+      
+      if (collaborationMode === 'autonomous') {
+        // Use new autonomous collaboration endpoint
+        response = await axios.post(`${API}/conversation/autonomous`, {
+          topic: newTopic,
+          agents: selectedAgents,
+          collaboration_mode: 'autonomous',
+          max_rounds: maxRounds,
+          consensus_threshold: 0.7
+        });
+        
+        setIsCollaborating(true);
+        setConsensusStatus(null);
+        setCurrentRound(0);
+      } else {
+        // Use legacy single-turn endpoint
+        response = await axios.post(`${API}/conversation/start`, {
+          topic: newTopic,
+          agents: selectedAgents,
+          message_count: 3
+        });
+      }
 
       const conversationId = response.data.conversation_id;
       setCurrentConversation(conversationId);
@@ -218,6 +236,7 @@ const App = () => {
       
     } catch (error) {
       console.error('Error starting conversation:', error);
+      alert('Failed to start conversation');
     }
   };
 
