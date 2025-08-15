@@ -474,12 +474,24 @@ async def get_api_stats():
 async def websocket_endpoint(websocket: WebSocket, conversation_id: str):
     await manager.connect(websocket)
     try:
+        # Send initial connection confirmation
+        await manager.send_personal_message(json.dumps({
+            "type": "connection_established",
+            "data": {"conversation_id": conversation_id, "message": "Connected successfully"}
+        }), websocket)
+        
+        # Keep connection alive
         while True:
-            data = await websocket.receive_text()
-            # Echo back or handle specific WebSocket messages if needed
-            await manager.send_personal_message(f"Connected to conversation: {conversation_id}", websocket)
-            break
+            try:
+                # Wait for WebSocket messages or keep connection alive
+                await asyncio.sleep(1)
+            except WebSocketDisconnect:
+                break
     except WebSocketDisconnect:
+        manager.disconnect(websocket)
+        logger.info(f"WebSocket disconnected for conversation: {conversation_id}")
+    except Exception as e:
+        logger.error(f"WebSocket error: {e}")
         manager.disconnect(websocket)
 
 # Include the router in the main app
