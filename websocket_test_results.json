@@ -2,43 +2,60 @@
   {
     "test": "Setup Conversation",
     "success": true,
-    "details": "Created conversation: f84cf19b-315a-4f4f-aacc-28cb451b7d90",
-    "timestamp": "2025-08-15T03:14:01.776870",
+    "details": "Created conversation: b815ecf4-4659-43bf-b3fd-4894c1f6520b",
+    "timestamp": "2025-08-15T03:17:58.458826",
     "response_data": null
   },
   {
     "test": "WebSocket Connection",
-    "success": false,
-    "details": "Connection failed: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
-    "timestamp": "2025-08-15T03:14:01.794702",
-    "response_data": null
+    "success": true,
+    "details": "Successfully connected to FIXED endpoint /api/ws/b815ecf4-4659-43bf-b3fd-4894c1f6520b",
+    "timestamp": "2025-08-15T03:17:58.534993",
+    "response_data": {
+      "type": "connection_established",
+      "data": {
+        "conversation_id": "b815ecf4-4659-43bf-b3fd-4894c1f6520b",
+        "message": "Connected successfully"
+      }
+    }
   },
   {
     "test": "WebSocket User Message Broadcast",
-    "success": false,
-    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
-    "timestamp": "2025-08-15T03:14:01.795003",
-    "response_data": null
+    "success": true,
+    "details": "User message correctly broadcasted via WebSocket",
+    "timestamp": "2025-08-15T03:17:58.607064",
+    "response_data": {
+      "type": "user_message",
+      "data": {
+        "id": "95bc046c-b92e-4b6f-b412-eefcece45447",
+        "conversation_id": "b815ecf4-4659-43bf-b3fd-4894c1f6520b",
+        "agent_type": null,
+        "content": "Hello agents! Let's discuss the future of AI collaboration.",
+        "timestamp": "2025-08-15T03:17:58.602479",
+        "is_user": true,
+        "image_url": null
+      }
+    }
   },
   {
     "test": "WebSocket Agent Conversation Broadcast",
     "success": false,
-    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
-    "timestamp": "2025-08-15T03:14:01.795258",
+    "details": "Exception: ",
+    "timestamp": "2025-08-15T03:18:58.671194",
     "response_data": null
   },
   {
     "test": "WebSocket Image Generation Broadcast",
     "success": false,
-    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
-    "timestamp": "2025-08-15T03:14:01.795486",
+    "details": "Invalid image message format: {'type': 'agent_message', 'data': {'id': 'ae624a56-02d0-4677-9345-b3cf6be77c0f', 'conversation_id': 'b815ecf4-4659-43bf-b3fd-4894c1f6520b', 'agent_type': 'strategist', 'content': \"<think>\\nAlright, so I need to figure out how to test WebSocket communication in multi-agent systems. I'm just starting to learn about this, so I need to break it down step by step.\\n\\nFirst, I know that WebSocket is a protocol that allows two-way communication between a client and a server. In a multi-agent system, each agent could be acting as a client, a server, or both. So, the first thing I need to understand is the architecture of the system. Are the agents all connected to a central server, or are they communicating directly with each other in a peer-to-peer fashion? This will affect how I design my tests.\\n\\nIf it's a central server setup, I should test that each agent can connect to the server and communicate through it. I might need to ensure that messages sent by one agent are correctly received by another through the server. In a peer-to-peer setup, each agent might act as both a client and a server, which could complicate things because each agent would need to handle both sending and receiving messages.\\n\\nNext, I should think about potential challenges. Reliability is a big one\u2014ensuring that messages are delivered correctly and in the right order. I might need to simulate different network conditions, like latency or packet loss, to see how the system handles them. Security is another concern; I need to make sure that communications are encrypted and that only authorized agents can connect and send messages.\\n\\nConcurrency could be an issue too, especially if multiple agents are sending messages at the same time. I might need to test how the system handles simultaneous connections and messages to prevent data corruption or race conditions. Scalability is also important\u2014how does the system perform when there are many agents connected?\\n\\nI should consider using tools that can help simulate these scenarios. Maybe there are libraries or frameworks that make it easier to set up and test WebSocket communication. I also need to think about error handling\u2014what happens if an agent disconnects or sends an invalid message? The system should handle these gracefully without crashing.\\n\\nDocumentation and logging will be important for debugging and understanding how the system behaves under different conditions. I might need to write unit tests for individual components and then integrate them to test the whole system.\\n\\nOverall, testing WebSocket communication in multi-agent systems seems complex, but by breaking it down into smaller parts and using the right tools, I can design a thorough testing strategy.\\n</think>\\n\\nTesting WebSocket communication in multi-agent systems is a complex task that requires a structured approach. Here is a step-by-step explanation of how to design a testing strategy:\\n\\n1. **Understand the System Architecture**: Determine if the system uses a central server or peer-to-peer communication. This will influence the test design, focusing on either client-server interactions or decentralized communication.\\n\\n2. **Identify Key Challenges**:\\n   - **Reliability**: Ensure messages are delivered correctly and in order.\\n   - **Security**: Implement encryption and authentication to secure communications.\\n   - **Concurrency**: Manage simultaneous connections and messages to prevent data issues.\\n   - **Scalability**: Test system performance with a large number of agents.\\n\\n3. **Simulate Network Conditions**: Use tools to simulate latency, packet loss, and disconnections to test reliability under various network conditions.\\n\\n4. **Implement Security Measures**: Use WebSocket Secure (wss://) and authentication mechanisms to ensure only authorized agents can communicate.\\n\\n5. **Handle Concurrency**: Test simultaneous connections and messages to identify potential race conditions or data corruption.\\n\\n6. **Test Scalability**: Evaluate system performance with many agents connected, possibly using load testing tools.\\n\\n7. **Design Error Handling**: Ensure the system gracefully handles disconnections and invalid messages without crashing.\\n\\n8. **Utilize Testing Tools**: Consider libraries or frameworks that facilitate WebSocket communication testing, such as Socket.IO or WebSocket Test Client.\\n\\n9. **Document and Log**: Keep detailed logs for debugging and understanding system behavior under different conditions.\\n\\n10. **Write Unit and Integration Tests**: Test individual components and then the integrated system to ensure everything works together seamlessly.\\n\\nBy methodically addressing each aspect, you can create a comprehensive testing strategy to validate the WebSocket communication in your multi-agent system.\", 'timestamp': '2025-08-15T03:19:00.228908', 'is_user': False, 'image_url': None, 'agent_config': {'name': 'Strategist', 'model': 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B', 'role': 'Planning and strategic reasoning', 'persona': 'You are a strategic thinker and planner. You analyze problems deeply, consider multiple perspectives, and create structured approaches. You ask probing questions and think several steps ahead.', 'color': '#3B82F6'}}}",
+    "timestamp": "2025-08-15T03:19:00.720341",
     "response_data": null
   },
   {
     "test": "End-to-End WebSocket Flow",
     "success": false,
-    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
-    "timestamp": "2025-08-15T03:14:01.795723",
+    "details": "Incomplete flow: 1 user, 8 agent, 0 image messages",
+    "timestamp": "2025-08-15T03:19:41.668717",
     "response_data": null
   }
 ]
