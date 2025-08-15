@@ -416,10 +416,12 @@ async def generate_image(request: ImageGenerationRequest):
             )
             
             # Save to database
-            await db.messages.insert_one(chat_message.dict())
+            message_dict = chat_message.dict()
+            message_dict["timestamp"] = message_dict["timestamp"].isoformat()
+            await db.messages.insert_one(message_dict)
             
             # Broadcast to WebSocket
-            message_data = chat_message.dict()
+            message_data = message_dict.copy()
             message_data["agent_config"] = AGENT_MODELS[AgentType.VISUALIZER.value]
             
             await manager.broadcast(json.dumps({
