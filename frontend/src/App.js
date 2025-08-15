@@ -37,6 +37,11 @@ const App = () => {
     loadApiStats();
   }, []);
 
+  // Add debug logging for messages
+  useEffect(() => {
+    console.log('Messages state updated:', messages);
+  }, [messages]);
+
   // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
