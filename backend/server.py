@@ -170,6 +170,26 @@ class ChatMessage(BaseModel):
     is_user: bool = False
     image_url: Optional[str] = None
 
+# Enhanced Models for Autonomous Collaboration
+class CollaborationMode(str, Enum):
+    SINGLE_TURN = "single_turn"
+    AUTONOMOUS = "autonomous"
+    CONSENSUS_REQUIRED = "consensus_required"
+
+class ConversationStartRequest(BaseModel):
+    topic: str
+    agents: List[AgentType]
+    message_count: int = 3
+    collaboration_mode: CollaborationMode = CollaborationMode.SINGLE_TURN
+    max_rounds: int = 10  # Maximum conversation rounds before forced conclusion
+    consensus_threshold: float = 0.8  # Agreement threshold for consensus detection
+
+class ConsensusStatus(BaseModel):
+    reached: bool
+    confidence: float
+    final_answer: Optional[str] = None
+    reasoning: Optional[str] = None
+
 class ConversationRequest(BaseModel):
     topic: str
     agents: List[AgentType]
