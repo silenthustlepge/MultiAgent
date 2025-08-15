@@ -1,0 +1,48 @@
+[
+  {
+    "test": "Polling Endpoint Basic",
+    "success": true,
+    "details": "Polling endpoint accessible - 0 messages",
+    "timestamp": "2025-08-15T04:03:16.744308",
+    "response_data": {
+      "conversation_id": "9c7012fe-82ab-4098-b951-cfe319efbc1e",
+      "messages": [],
+      "total_messages": 0
+    }
+  },
+  {
+    "test": "Polling with User Messages",
+    "success": true,
+    "details": "User message accessible via polling - 1 user messages found",
+    "timestamp": "2025-08-15T04:03:16.806918",
+    "response_data": null
+  },
+  {
+    "test": "Polling with Agent Generation",
+    "success": true,
+    "details": "Agent messages accessible via polling - 6 agent messages from 3 agents",
+    "timestamp": "2025-08-15T04:03:59.666214",
+    "response_data": null
+  },
+  {
+    "test": "All Four Agents via Polling",
+    "success": true,
+    "details": "Multiple agents accessible via polling - found 4 agents: {'strategist', 'creator', 'analyst', 'visualizer'}",
+    "timestamp": "2025-08-15T04:04:34.701178",
+    "response_data": null
+  },
+  {
+    "test": "Image Generation via Polling",
+    "success": true,
+    "details": "Image message accessible via polling - 1 image messages found",
+    "timestamp": "2025-08-15T04:04:39.355538",
+    "response_data": null
+  },
+  {
+    "test": "Polling Message Format",
+    "success": true,
+    "details": "All 8 messages have proper format",
+    "timestamp": "2025-08-15T04:04:39.368094",
+    "response_data": null
+  }
+]
