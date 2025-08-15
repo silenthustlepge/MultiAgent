@@ -164,15 +164,21 @@ const App = () => {
         content: userMessage
       });
       
-      // Add user message to local state
+      // Add user message to local state immediately
       const userMsg = {
-        id: Date.now(),
+        id: Date.now().toString(),
+        conversation_id: currentConversation,
         content: userMessage,
         is_user: true,
         timestamp: new Date().toISOString()
       };
       
-      setMessages(prev => [...prev, userMsg]);
+      console.log('Adding user message to state:', userMsg);
+      setMessages(prev => {
+        const newMessages = [...prev, userMsg];
+        console.log('Updated messages with user message:', newMessages);
+        return newMessages;
+      });
       setUserMessage('');
     } catch (error) {
       console.error('Error sending message:', error);
