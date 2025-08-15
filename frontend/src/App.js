@@ -127,6 +127,19 @@ const App = () => {
               setLastMessageCount(newMessages.length);
               return newMessages;
             });
+          } else if (data.type === 'consensus_update') {
+            console.log('🎯 Consensus update received:', data.data);
+            setConsensusStatus(data.data.consensus);
+            setCurrentRound(data.data.round);
+          } else if (data.type === 'consensus_final') {
+            console.log('✅ Final consensus reached:', data.data);
+            setMessages(prev => [...prev, data.data]);
+            setIsCollaborating(false);
+            setConsensusStatus({ reached: true, final: true });
+          } else if (data.type === 'collaboration_concluded') {
+            console.log('⏰ Collaboration concluded:', data.data);
+            setMessages(prev => [...prev, data.data]);
+            setIsCollaborating(false);
           }
         } catch (error) {
           console.error('❌ Error parsing WebSocket message:', error);
