@@ -382,6 +382,10 @@ async def generate_agent_conversation(conversation_id: str):
                 message_dict["timestamp"] = message_dict["timestamp"].isoformat()
                 await db.messages.insert_one(message_dict)
                 
+                # Remove MongoDB _id for JSON serialization
+                if "_id" in message_dict:
+                    del message_dict["_id"]
+                
                 # Broadcast to WebSocket
                 message_data = message_dict.copy()
                 message_data["agent_config"] = AGENT_MODELS[agent_type.value]
