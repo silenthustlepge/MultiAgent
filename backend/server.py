@@ -624,6 +624,41 @@ async def websocket_endpoint(websocket: WebSocket, conversation_id: str):
         logger.error(f"WebSocket error: {e}")
         manager.disconnect(websocket)
 
+# Add polling endpoint for real-time message updates (WebSocket alternative)
+@api_router.get("/conversation/{conversation_id}/poll")
+async def poll_conversation_updates(conversation_id: str):
+    """Polling endpoint to get latest messages - WebSocket alternative for restricted environments"""
+    try:
+        collection = db["conversations"]
+        conversation = await collection.find_one({"id": conversation_id})
+        
+        if not conversation:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        
+        # Get messages and format them properly
+        messages = conversation.get("messages", [])
+        
+        # Ensure all messages have proper format
+        formatted_messages = []
+        for msg in messages:
+            formatted_msg = {
+                "id": msg.get("id", ""),
+                "content": msg.get("content", ""),
+                "agent_type": msg.get("agent_type", "user"),
+                "timestamp": msg.get("timestamp", datetime.utcnow().isoformat()),
+                "image_url": msg.get("image_url")
+            }
+            formatted_messages.append(formatted_msg)
+        
+        return {
+            "conversation_id": conversation_id,
+            "messages": formatted_messages,
+            "total_messages": len(formatted_messages)
+        }
+    except Exception as e:
+        logger.error(f"Error polling conversation updates: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
