@@ -61,18 +61,44 @@ const App = () => {
   };
 
   const setupWebSocket = (conversationId) => {
+    // Close existing WebSocket if any
+    if (wsRef.current) {
+      wsRef.current.close();
+    }
+
     const wsUrl = `${BACKEND_URL.replace('http', 'ws')}/ws/${conversationId}`;
+    console.log('Setting up WebSocket:', wsUrl);
     wsRef.current = new WebSocket(wsUrl);
     
+    wsRef.current.onopen = () => {
+      console.log('WebSocket connected successfully');
+    };
+    
     wsRef.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === 'agent_message') {
-        setMessages(prev => [...prev, data.data]);
+      try {
+        console.log('WebSocket message received:', event.data);
+        const data = JSON.parse(event.data);
+        console.log('Parsed WebSocket data:', data);
+        
+        if (data.type === 'agent_message' || data.type === 'user_message') {
+          console.log('Adding message to state:', data.data);
+          setMessages(prev => {
+            const newMessages = [...prev, data.data];
+            console.log('Updated messages state:', newMessages);
+            return newMessages;
+          });
+        }
+      } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
       }
     };
 
-    wsRef.current.onclose = () => {
-      console.log('WebSocket connection closed');
+    wsRef.current.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    wsRef.current.onclose = (event) => {
+      console.log('WebSocket connection closed:', event.code, event.reason);
     };
   };
 
