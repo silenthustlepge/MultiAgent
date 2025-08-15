@@ -1,0 +1,161 @@
+[
+  {
+    "test": "Root Endpoint",
+    "success": true,
+    "details": "Status: 200, Message: Multi-Agent Chat Platform API",
+    "timestamp": "2025-08-15T02:39:10.241891",
+    "response_data": {
+      "message": "Multi-Agent Chat Platform API"
+    }
+  },
+  {
+    "test": "Get Agents",
+    "success": true,
+    "details": "All 4 agents configured correctly: strategist: Strategist (deepseek-ai/DeepSeek-R1-Distill-Llama-70B), creator: Creator (meta-llama/Llama-3.3-70B-Instruct-Turbo-Free), analyst: Analyst (lgai/exaone-3-5-32b-instruct), visualizer: Visualizer (black-forest-labs/FLUX.1-schnell-Free)",
+    "timestamp": "2025-08-15T02:39:10.252894",
+    "response_data": {
+      "strategist": {
+        "name": "Strategist",
+        "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+        "role": "Planning and strategic reasoning",
+        "persona": "You are a strategic thinker and planner. You analyze problems deeply, consider multiple perspectives, and create structured approaches. You ask probing questions and think several steps ahead.",
+        "color": "#3B82F6"
+      },
+      "creator": {
+        "name": "Creator",
+        "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+        "role": "Fast content generation and execution",
+        "persona": "You are a creative and productive generator. You take ideas and quickly turn them into concrete content, stories, or solutions. You're action-oriented and love bringing concepts to life.",
+        "color": "#10B981"
+      },
+      "analyst": {
+        "name": "Analyst",
+        "model": "lgai/exaone-3-5-32b-instruct",
+        "role": "Critical analysis and diverse perspectives",
+        "persona": "You are a critical thinker and analyst. You examine ideas from multiple angles, identify potential issues, and provide balanced perspectives. You ask 'what if' questions and consider edge cases.",
+        "color": "#F59E0B"
+      },
+      "visualizer": {
+        "name": "Visualizer",
+        "model": "black-forest-labs/FLUX.1-schnell-Free",
+        "role": "Visual content and image generation",
+        "persona": "You are a visual artist and designer. You create compelling images and help visualize concepts. You think in terms of composition, color, and visual storytelling.",
+        "color": "#EF4444"
+      }
+    }
+  },
+  {
+    "test": "Start Conversation",
+    "success": true,
+    "details": "Conversation started with ID: 0acd1f67-31d9-4681-8ea4-cda1e829fe86",
+    "timestamp": "2025-08-15T02:39:10.283126",
+    "response_data": {
+      "conversation_id": "0acd1f67-31d9-4681-8ea4-cda1e829fe86",
+      "status": "started"
+    }
+  },
+  {
+    "test": "Add User Message",
+    "success": false,
+    "details": "HTTP 500: Internal Server Error",
+    "timestamp": "2025-08-15T02:39:10.311748",
+    "response_data": null
+  },
+  {
+    "test": "Get Messages",
+    "success": true,
+    "details": "Retrieved 1 messages",
+    "timestamp": "2025-08-15T02:39:10.320843",
+    "response_data": {
+      "message_count": 1
+    }
+  },
+  {
+    "test": "API Stats",
+    "success": true,
+    "details": "All 8 API keys properly configured and tracked",
+    "timestamp": "2025-08-15T02:39:10.369436",
+    "response_data": {
+      "api_keys": [
+        {
+          "keyId": "together-ai-CartoonKeeda",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0
+        },
+        {
+          "keyId": "together-key-itspg",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0
+        },
+        {
+          "keyId": "together-key-OneLastTry",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0
+        },
+        {
+          "keyId": "together-key-SilentHustle",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0
+        },
+        {
+          "keyId": "together-key-pgCAN",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0
+        },
+        {
+          "keyId": "together-key-MRGEdits",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0
+        },
+        {
+          "keyId": "together-key-PTY49",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0
+        },
+        {
+          "keyId": "together-key-ShopsterZone",
+          "requestCount": 0,
+          "rateLimit": 60,
+          "utilizationPercent": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "test": "Key Pool Management",
+    "success": false,
+    "details": "No increase in request count detected",
+    "timestamp": "2025-08-15T02:39:13.415980",
+    "response_data": null
+  },
+  {
+    "test": "Generate Conversation",
+    "success": true,
+    "details": "Agent conversation generated successfully - Together.ai integration working",
+    "timestamp": "2025-08-15T02:39:48.693427",
+    "response_data": {
+      "status": "conversation_generated"
+    }
+  },
+  {
+    "test": "Agent Message Generation",
+    "success": true,
+    "details": "Generated 9 agent messages",
+    "timestamp": "2025-08-15T02:39:50.706637",
+    "response_data": null
+  },
+  {
+    "test": "Image Generation",
+    "success": false,
+    "details": "HTTP 500: {\"detail\":\"Object of type datetime is not JSON serializable\"}",
+    "timestamp": "2025-08-15T02:39:52.641718",
+    "response_data": null
+  }
+]
