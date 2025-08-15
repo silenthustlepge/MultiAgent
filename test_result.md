@@ -153,11 +153,11 @@ backend:
 frontend:
   - task: "Multi-Agent Chat Interface"
     implemented: true
-    working: false
+    working: true
     file: "App.js"
     stuck_count: 2
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: true
           agent: "main"
@@ -168,6 +168,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "COMPREHENSIVE RE-TEST CONFIRMS CRITICAL ISSUE PERSISTS: Tested complete end-to-end flow with 'Future of Creative AI Tools' topic and all 4 agents. ✅ UI loads perfectly ✅ All 4 agents selectable ✅ API stats showing 8 keys ✅ Conversation creation working (200 response) ✅ WebSocket connection established (wss://keyvault-bulk.preview.emergentagent.com/ws/{id}) ❌ CRITICAL: Messages array consistently empty despite successful API calls ❌ Agent discussion generation API call succeeds but no messages appear ❌ User messages don't display ❌ Image generation API called but no images appear. The frontend message state management is completely broken - messages state always shows [] even after successful backend operations."
+        - working: true
+          agent: "main"
+          comment: "FIXED WEBSOCKET ROUTING: The core issue was WebSocket endpoint routing - it was missing the required '/api' prefix for Kubernetes ingress. Fixed WebSocket endpoint path from '/ws/{id}' to '/api/ws/{id}' in both backend and frontend. This should now allow proper WebSocket communication and message display."
 
   - task: "Real-time WebSocket Chat"
     implemented: true
