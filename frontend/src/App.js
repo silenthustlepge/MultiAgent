@@ -71,7 +71,14 @@ const App = () => {
       wsRef.current.close();
     }
 
-    const wsUrl = `${BACKEND_URL.replace('http', 'ws')}/ws/${conversationId}`;
+    // Properly construct WebSocket URL for production environment
+    let wsUrl;
+    if (BACKEND_URL.includes('emergentagent.com')) {
+      wsUrl = `wss://keyvault-bulk.preview.emergentagent.com/ws/${conversationId}`;
+    } else {
+      wsUrl = `${BACKEND_URL.replace('http', 'ws')}/ws/${conversationId}`;
+    }
+    
     console.log('Setting up WebSocket:', wsUrl);
     wsRef.current = new WebSocket(wsUrl);
     
