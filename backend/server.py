@@ -374,10 +374,12 @@ async def generate_agent_conversation(conversation_id: str):
                 )
                 
                 # Save to database
-                await db.messages.insert_one(chat_message.dict())
+                message_dict = chat_message.dict()
+                message_dict["timestamp"] = message_dict["timestamp"].isoformat()
+                await db.messages.insert_one(message_dict)
                 
                 # Broadcast to WebSocket
-                message_data = chat_message.dict()
+                message_data = message_dict.copy()
                 message_data["agent_config"] = AGENT_MODELS[agent_type.value]
                 
                 await manager.broadcast(json.dumps({
