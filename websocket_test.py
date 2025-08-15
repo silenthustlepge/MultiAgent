@@ -68,7 +68,7 @@ class WebSocketTester:
             websocket_url = f"{WEBSOCKET_URL}/{self.conversation_id}"
             print(f"🔌 Connecting to WebSocket: {websocket_url}")
             
-            async with websockets.connect(websocket_url, timeout=10) as websocket:
+            async with websockets.connect(websocket_url) as websocket:
                 # Wait for connection confirmation
                 try:
                     message = await asyncio.wait_for(websocket.recv(), timeout=5.0)
@@ -100,7 +100,7 @@ class WebSocketTester:
         try:
             websocket_url = f"{WEBSOCKET_URL}/{self.conversation_id}"
             
-            async with websockets.connect(websocket_url, timeout=10) as websocket:
+            async with websockets.connect(websocket_url) as websocket:
                 # Skip connection confirmation
                 await websocket.recv()
                 
@@ -153,7 +153,7 @@ class WebSocketTester:
         try:
             websocket_url = f"{WEBSOCKET_URL}/{self.conversation_id}"
             
-            async with websockets.connect(websocket_url, timeout=10) as websocket:
+            async with websockets.connect(websocket_url) as websocket:
                 # Skip connection confirmation
                 await websocket.recv()
                 
@@ -227,7 +227,7 @@ class WebSocketTester:
         try:
             websocket_url = f"{WEBSOCKET_URL}/{self.conversation_id}"
             
-            async with websockets.connect(websocket_url, timeout=10) as websocket:
+            async with websockets.connect(websocket_url) as websocket:
                 # Skip connection confirmation
                 await websocket.recv()
                 
@@ -290,7 +290,7 @@ class WebSocketTester:
             websocket_url = f"{WEBSOCKET_URL}/{self.conversation_id}"
             all_messages = []
             
-            async with websockets.connect(websocket_url, timeout=10) as websocket:
+            async with websockets.connect(websocket_url) as websocket:
                 # Skip connection confirmation
                 await websocket.recv()
                 
