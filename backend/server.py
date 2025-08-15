@@ -657,7 +657,7 @@ async def system_health():
     """Get system health and performance metrics"""
     try:
         # Check database connection
-        await db.admin.command('ping')
+        await client.admin.command('ping')
         db_status = "healthy"
     except Exception as e:
         db_status = f"error: {str(e)}"
