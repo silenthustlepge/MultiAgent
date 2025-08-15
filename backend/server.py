@@ -130,6 +130,9 @@ AGENT_MODELS = {
     }
 }
 
+# AI_AGENTS alias for backward compatibility
+AI_AGENTS = AGENT_MODELS
+
 # Connection Manager for WebSockets
 class ConnectionManager:
     def __init__(self):
