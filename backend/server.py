@@ -253,6 +253,15 @@ async def call_together_ai_stream(prompt: str, model: str, max_tokens: int = 100
 
 async def call_together_ai(prompt: str, model: str, max_tokens: int = 1000, stream: bool = False):
     """Make API call to Together.ai with optional streaming"""
+    
+    # If streaming is requested and it's not an image model, use the streaming function
+    if stream and "FLUX" not in model:
+        content_chunks = []
+        async for chunk in call_together_ai_stream(prompt, model, max_tokens):
+            content_chunks.append(chunk)
+        return ''.join(content_chunks)
+    
+    # Non-streaming implementation
     key_info = get_next_available_key()
     
     headers = {
@@ -271,7 +280,6 @@ async def call_together_ai(prompt: str, model: str, max_tokens: int = 1000, stre
             "n": 1
         }
         url = "https://api.together.xyz/v1/images/generations"
-        stream = False  # Image generation doesn't support streaming
     else:
         payload = {
             "model": model,
@@ -279,8 +287,7 @@ async def call_together_ai(prompt: str, model: str, max_tokens: int = 1000, stre
                 {"role": "user", "content": prompt}
             ],
             "max_tokens": max_tokens,
-            "temperature": 0.7,
-            "stream": stream
+            "temperature": 0.7
         }
         url = "https://api.together.xyz/v1/chat/completions"
     
