@@ -2,50 +2,50 @@
   {
     "test": "System Health",
     "success": true,
-    "details": "Status: degraded, DB: error: MotorCollection object is not callable. If you meant to call the 'admin.command' method on a MotorCollection object it is failing because no such method exists., Active Keys: 8/8, Total Requests: 2",
-    "timestamp": "2025-08-15T04:50:24.146499",
+    "details": "Status: healthy, DB: healthy, Active Keys: 8/8, Total Requests: 0",
+    "timestamp": "2025-08-15T04:52:15.855786",
     "response_data": {
-      "status": "degraded",
-      "database": "error: MotorCollection object is not callable. If you meant to call the 'admin.command' method on a MotorCollection object it is failing because no such method exists.",
+      "status": "healthy",
+      "database": "healthy",
       "api_keys": {
         "active": 8,
         "total": 8,
-        "total_requests": 2,
+        "total_requests": 0,
         "total_errors": 0,
         "error_rate": 0.0
       },
       "websocket_connections": {
-        "total_connections": 1,
-        "active_connections": 1,
-        "messages_sent": 4
+        "total_connections": 0,
+        "active_connections": 0,
+        "messages_sent": 0
       },
-      "timestamp": "2025-08-15T04:50:24.142580"
+      "timestamp": "2025-08-15T04:52:15.851158"
     }
   },
   {
     "test": "Enhanced Stats",
     "success": true,
     "details": "Enhanced stats with performance metrics: 8 keys with full metrics, Summary includes: ['total_keys', 'active_keys', 'total_requests', 'total_errors', 'avg_response_time']",
-    "timestamp": "2025-08-15T04:50:24.160166",
+    "timestamp": "2025-08-15T04:52:15.868080",
     "response_data": {
       "api_keys": [
         {
           "keyId": "together-ai-CartoonKeeda",
-          "requestCount": 1,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 1.6666666666666667,
-          "totalRequests": 1,
+          "utilizationPercent": 0.0,
+          "totalRequests": 0,
           "errors": 0,
-          "avgResponseTime": 22.811,
+          "avgResponseTime": 0.0,
           "status": "active",
           "errorRate": 0.0
         },
         {
           "keyId": "together-key-itspg",
-          "requestCount": 1,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 1.6666666666666667,
-          "totalRequests": 1,
+          "utilizationPercent": 0.0,
+          "totalRequests": 0,
           "errors": 0,
           "avgResponseTime": 0.0,
           "status": "active",
@@ -121,19 +121,19 @@
       "summary": {
         "total_keys": 8,
         "active_keys": 8,
-        "total_requests": 2,
+        "total_requests": 0,
         "total_errors": 0,
-        "avg_response_time": 2.851324051618576
+        "avg_response_time": 0.0
       }
     }
   },
   {
     "test": "Enhanced Autonomous Collaboration",
     "success": true,
-    "details": "Started autonomous collaboration with streaming: f3fb4851-3ed5-4ac9-a4d6-26942bc98939, Mode: autonomous",
-    "timestamp": "2025-08-15T04:50:24.176690",
+    "details": "Started autonomous collaboration with streaming: b39cb8b2-f9dc-4846-aa08-e138bb59453d, Mode: autonomous",
+    "timestamp": "2025-08-15T04:52:15.889240",
     "response_data": {
-      "conversation_id": "f3fb4851-3ed5-4ac9-a4d6-26942bc98939",
+      "conversation_id": "b39cb8b2-f9dc-4846-aa08-e138bb59453d",
       "status": "started",
       "mode": "autonomous",
       "agents": [
@@ -150,44 +150,56 @@
     "test": "Autonomous Message Generation",
     "success": true,
     "details": "Generated 1 autonomous messages",
-    "timestamp": "2025-08-15T04:50:34.228852",
+    "timestamp": "2025-08-15T04:52:25.955135",
     "response_data": null
   },
   {
     "test": "Conversation Summary",
-    "success": false,
-    "details": "HTTP 500: {\"detail\":\"1 validation error for ConversationSummary\\nid\\n  Field required [type=missing, input_value={'conversation_id': 'f3fb...onsensus_reached': True}, input_type=dict]\\n    For further information visit https://errors.pydantic.dev/2.11/v/missing\"}",
-    "timestamp": "2025-08-15T04:50:41.213390",
-    "response_data": null
+    "success": true,
+    "details": "AI summary generated: 2646 chars, 3 insights, 0 agent contributions",
+    "timestamp": "2025-08-15T04:52:32.917527",
+    "response_data": {
+      "id": "828a612c-1366-4d1b-8ed1-931e0bb3f257",
+      "conversation_id": "b39cb8b2-f9dc-4846-aa08-e138bb59453d",
+      "summary": "<think>\nOkay, so I need to provide a comprehensive summary of a multi-agent conversation about the future of AI-Human collaboration in creative industries. The user has given me a sample summary, and I need to create a similar one. Let me think through how to approach this.\n\nFirst, I should understand the structure of the sample summary. It has four main sections: main discussion points, key conclusions, areas of agreement/disagreement, and next steps or recommendations. Each section is concise but covers the necessary points.\n\nI need to identify the key elements from the conversation. The topic is the future of AI and human collaboration in creative fields, so I'll focus on how AI is impacting areas like design, music, writing, and film.\n\nMain discussion points probably include the potential of AI to augment human creativity, maybe by handling repetitive tasks or suggesting new ideas. Ethical issues like ownership of AI-generated work might come up. Also, how education and training need to adapt to include AI tools. There could be a debate on whether AI will replace human creatives or enhance their work.\n\nFor key conclusions, it's likely that the participants agree AI will be a significant tool but won't replace humans. They might conclude that collaboration is key and that ethical frameworks are necessary.\n\nAreas of agreement would include the enhancement of creativity and the need for new skills. Disagreements might involve the extent of AI's impact on jobs and the fairness of current AI systems.\n\nNext steps would involve creating ethical guidelines, updating education, and encouraging more collaboration projects between humans and AI.\n\nI should make sure each section is clear and covers these points without being too wordy. Now, putting it all together in a structured way, similar to the sample provided.\n</think>\n\n**Comprehensive Summary of the Multi-Agent Conversation on the Future of AI-Human Collaboration in Creative Industries**\n\n**1. Main Discussion Points:**\n   - **AI's Role in Creative Industries:** The conversation explored how AI can augment human creativity in fields like design, music, writing, and film. AI's potential to handle repetitive tasks and generate new ideas was highlighted.\n   - **Ethical Considerations:** Ethical issues, particularly ownership of AI-generated work, were discussed, along with concerns about bias in AI algorithms affecting creative outcomes.\n   - **Educational Adaptation:** The need for education and training to integrate AI tools, ensuring professionals can effectively collaborate with AI, was emphasized.\n   - **Impact on Employment:** There was a debate on",
+      "key_insights": [
+        "Summary generated successfully",
+        "Multi-agent collaboration completed",
+        "Insights extracted from conversation"
+      ],
+      "agent_contributions": {},
+      "consensus_reached": true,
+      "created_at": "2025-08-15T04:52:32.903421"
+    }
   },
   {
     "test": "Conversation Export JSON",
     "success": true,
     "details": "JSON export successful with 2 messages",
-    "timestamp": "2025-08-15T04:50:41.223754",
+    "timestamp": "2025-08-15T04:52:32.930331",
     "response_data": null
   },
   {
     "test": "Conversation Export Markdown",
     "success": true,
     "details": "Markdown export successful: 421 characters",
-    "timestamp": "2025-08-15T04:50:41.274648",
+    "timestamp": "2025-08-15T04:52:32.939414",
     "response_data": null
   },
   {
     "test": "Agent Analytics",
     "success": true,
-    "details": "Analytics for 1 agents: ['creator'], Total messages: 2",
-    "timestamp": "2025-08-15T04:50:41.324775",
+    "details": "Analytics for 1 agents: ['creator'], Total messages: 3",
+    "timestamp": "2025-08-15T04:52:32.988349",
     "response_data": {
       "agent_metrics": [
         {
           "agent_type": "creator",
-          "total_messages": 2,
+          "total_messages": 3,
           "avg_response_time": 0.0,
           "total_tokens": 0,
           "error_rate": 0.0,
-          "last_active": "2025-08-15T04:50:25.385520",
+          "last_active": "2025-08-15T04:50:52.860934",
           "agent_config": {
             "name": "Creator",
             "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
@@ -207,25 +219,32 @@
     }
   },
   {
-    "test": "Enhanced WebSocket",
+    "test": "Enhanced WebSocket Connection",
+    "success": true,
+    "details": "Connection established with features: ['real-time streaming', 'performance metrics', 'error recovery']",
+    "timestamp": "2025-08-15T04:52:33.080872",
+    "response_data": null
+  },
+  {
+    "test": "WebSocket Heartbeat",
     "success": false,
-    "details": "Exception: BaseEventLoop.create_connection() got an unexpected keyword argument 'timeout'",
-    "timestamp": "2025-08-15T04:50:41.342858",
+    "details": "No heartbeat received within 10 seconds (heartbeat every 30s)",
+    "timestamp": "2025-08-15T04:52:43.083816",
     "response_data": null
   },
   {
     "test": "Enhanced Polling",
     "success": true,
     "details": "Enhanced polling working: 2 messages, 2 with enhanced fields, Status: completed",
-    "timestamp": "2025-08-15T04:50:41.355407",
+    "timestamp": "2025-08-15T04:52:43.138884",
     "response_data": {
-      "conversation_id": "f3fb4851-3ed5-4ac9-a4d6-26942bc98939",
+      "conversation_id": "b39cb8b2-f9dc-4846-aa08-e138bb59453d",
       "messages": [
         {
-          "id": "4acd4455-4786-49a0-a16d-28242f8bb44f",
+          "id": "63099d2b-6c1a-400d-a058-54a17fe0ede3",
           "content": "\ud83d\ude80 Starting CollaborationMode.AUTONOMOUS collaboration on: Future of AI-Human Collaboration in Creative Industries",
           "agent_type": null,
-          "timestamp": "2025-08-15T04:50:24.172146",
+          "timestamp": "2025-08-15T04:52:15.879236",
           "is_user": true,
           "image_url": null,
           "streaming_status": null,
@@ -233,10 +252,10 @@
           "token_count": null
         },
         {
-          "id": "685a68c7-fb56-4723-ae1d-bf028911e362",
+          "id": "c38447e4-7b01-4aac-a5ac-29fa2f9e8bfb",
           "content": "\ud83c\udfaf **CONSENSUS REACHED** \ud83c\udfaf\n\nCollaborative solution achieved\n\n*Confidence: 85.0% | Completed in 3 rounds*",
           "agent_type": null,
-          "timestamp": "2025-08-15T04:50:30.182429",
+          "timestamp": "2025-08-15T04:52:21.889438",
           "is_user": false,
           "image_url": null,
           "streaming_status": null,
@@ -245,7 +264,7 @@
         }
       ],
       "total_messages": 2,
-      "last_updated": "2025-08-15T04:50:41.352397",
+      "last_updated": "2025-08-15T04:52:43.134900",
       "conversation_status": "completed"
     }
   },
@@ -253,14 +272,14 @@
     "test": "Streaming Indicators",
     "success": false,
     "details": "No streaming status indicators found",
-    "timestamp": "2025-08-15T04:50:51.522915",
+    "timestamp": "2025-08-15T04:52:53.324327",
     "response_data": null
   },
   {
     "test": "Retry Logic & Error Handling",
     "success": true,
-    "details": "Error handling working well: 0 errors out of 5 requests (0.0% error rate)",
-    "timestamp": "2025-08-15T04:50:54.129517",
+    "details": "Error handling working well: 0 errors out of 2 requests (0.0% error rate)",
+    "timestamp": "2025-08-15T04:52:55.897397",
     "response_data": null
   }
 ]
