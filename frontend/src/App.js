@@ -467,9 +467,22 @@ const App = () => {
             {/* Start Button */}
             <button
               onClick={startNewConversation}
-              className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-lg font-semibold transition-colors"
+              disabled={isCollaborating}
+              className={`w-full p-3 rounded-lg font-semibold transition-colors ${
+                isCollaborating 
+                  ? 'bg-gray-600 cursor-not-allowed' 
+                  : collaborationMode === 'autonomous'
+                    ? 'bg-purple-600 hover:bg-purple-700'
+                    : 'bg-blue-600 hover:bg-blue-700'
+              }`}
             >
-              Start Conversation
+              {isCollaborating ? (
+                '🤖 Agents Collaborating...'
+              ) : collaborationMode === 'autonomous' ? (
+                '🚀 Start Autonomous Collaboration'
+              ) : (
+                'Start Conversation'
+              )}
             </button>
           </div>
 
