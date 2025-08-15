@@ -153,15 +153,18 @@ backend:
 frontend:
   - task: "Multi-Agent Chat Interface"
     implemented: true
-    working: true
+    working: false
     file: "App.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
         - working: true
           agent: "main"
           comment: "Beautiful dark theme interface with agent selection, real-time chat, WebSocket integration, API stats display, and image generation support. Screenshot confirms UI is working perfectly."
+        - working: false
+          agent: "testing"
+          comment: "CRITICAL ISSUE: While the UI loads correctly with all visual elements (✅ Header, sidebar, agent selection, API stats with 8 keys, conversation creation), the core chat functionality is broken. Messages from agents and users do not appear in the chat interface despite successful API calls. The WebSocket message handling or state management is failing, preventing the multi-agent collaboration from being visible to users."
 
   - task: "Real-time WebSocket Chat"
     implemented: true
