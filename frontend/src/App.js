@@ -37,6 +37,18 @@ const App = () => {
     loadApiStats();
   }, []);
 
+  // Cleanup function
+  useEffect(() => {
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+      }
+    };
+  }, []);
+
   // Add debug logging for messages
   useEffect(() => {
     console.log('Messages state updated:', messages);
