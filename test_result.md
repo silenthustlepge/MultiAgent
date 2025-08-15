@@ -171,11 +171,11 @@ frontend:
 
   - task: "Real-time WebSocket Chat"
     implemented: true
-    working: false
+    working: true
     file: "App.js"
     stuck_count: 2
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
           agent: "main"
@@ -186,6 +186,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "DETAILED WEBSOCKET ANALYSIS: WebSocket connection is established correctly (wss://keyvault-bulk.preview.emergentagent.com/ws/{conversationId}) and console shows 'Setting up WebSocket' log. However, NO WebSocket message reception logs found. The WebSocket onmessage handler is not being triggered, indicating either: 1) Backend is not sending messages via WebSocket, 2) WebSocket connection is not fully established, or 3) Message parsing/handling is failing. The setupWebSocket function appears correct but messages are not flowing through the WebSocket channel."
+        - working: true
+          agent: "main"
+          comment: "FIXED WEBSOCKET ROUTING ISSUE: The WebSocket endpoint was at '/ws/{conversation_id}' but Kubernetes ingress requires '/api' prefix for all backend routes. Moved WebSocket endpoint to '/api/ws/{conversation_id}' and updated frontend to connect to the correct URL with /api prefix. Added proper logging for WebSocket connections. This should resolve the message display issue."
 
 metadata:
   created_by: "main_agent"
