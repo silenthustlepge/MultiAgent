@@ -432,6 +432,165 @@ async def generate_agent_response_stream(agent_type: AgentType, conversation_con
     
     return complete_content
 
+async def detect_consensus(messages: List[Dict], agents: List[str], topic: str) -> ConsensusStatus:
+    """
+    Analyze conversation messages to detect if agents have reached consensus
+    """
+    if len(messages) < len(agents):
+        return ConsensusStatus(reached=False, confidence=0.0)
+    
+    try:
+        # Get recent messages from each agent
+        agent_messages = {}
+        for msg in reversed(messages[-6:]):  # Look at last 6 messages
+            agent_type = msg.get('agent_type')
+            if agent_type and agent_type != 'user':
+                if agent_type not in agent_messages:
+                    agent_messages[agent_type] = []
+                agent_messages[agent_type].append(msg['content'])
+        
+        # Use AI to analyze consensus
+        consensus_prompt = f"""
+        Analyze this multi-agent conversation about "{topic}" to determine if the agents have reached consensus.
+        
+        Recent agent messages:
+        {json.dumps(agent_messages, indent=2)}
+        
+        Evaluate:
+        1. Do agents agree on a solution/approach?
+        2. Are they building on each other's ideas constructively?
+        3. Have they reached a actionable conclusion?
+        4. Is there a clear final answer emerging?
+        
+        Respond ONLY in JSON format:
+        {{
+            "consensus_reached": true/false,
+            "confidence": 0.0-1.0,
+            "final_answer": "concise agreed-upon solution if consensus reached",
+            "reasoning": "brief explanation of consensus status"
+        }}
+        """
+        
+        # Use strategist agent (DeepSeek) for consensus analysis
+        api_key = get_next_available_key()
+        headers = {"Authorization": f"Bearer {api_key['apiKey']}"}
+        
+        payload = {
+            "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+            "messages": [{"role": "user", "content": consensus_prompt}],
+            "max_tokens": 300,
+            "temperature": 0.3
+        }
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "https://api.together.ai/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=30.0
+            )
+            
+            if response.status_code == 200:
+                result = response.json()
+                content = result['choices'][0]['message']['content'].strip()
+                
+                # Parse JSON response
+                try:
+                    consensus_data = json.loads(content)
+                    return ConsensusStatus(
+                        reached=consensus_data.get('consensus_reached', False),
+                        confidence=float(consensus_data.get('confidence', 0.0)),
+                        final_answer=consensus_data.get('final_answer'),
+                        reasoning=consensus_data.get('reasoning', 'Analysis completed')
+                    )
+                except json.JSONDecodeError:
+                    # Fallback: simple keyword analysis
+                    content_lower = content.lower()
+                    agreement_keywords = ['agree', 'consensus', 'solution', 'final', 'conclude', 'ready']
+                    agreement_score = sum(1 for keyword in agreement_keywords if keyword in content_lower)
+                    
+                    return ConsensusStatus(
+                        reached=agreement_score >= 2,
+                        confidence=min(agreement_score / 4.0, 1.0),
+                        final_answer=content if agreement_score >= 2 else None,
+                        reasoning='Keyword-based analysis fallback'
+                    )
+            else:
+                logger.error(f"Consensus analysis failed: {response.status_code}")
+                return ConsensusStatus(reached=False, confidence=0.0, reasoning="Analysis API error")
+                
+    except Exception as e:
+        logger.error(f"Error in consensus detection: {e}")
+        return ConsensusStatus(reached=False, confidence=0.0, reasoning=f"Error: {str(e)}")
+
+async def generate_autonomous_agent_message(agent_type: str, topic: str, conversation_history: List[Dict], round_number: int) -> str:
+    """
+    Generate agent message considering conversation history and collaboration context
+    """
+    agent_config = AI_AGENTS[agent_type]
+    
+    # Build context-aware prompt
+    recent_messages = conversation_history[-8:] if conversation_history else []
+    conversation_context = ""
+    
+    if recent_messages:
+        conversation_context = "\n\nRecent conversation:\n"
+        for msg in recent_messages:
+            speaker = msg.get('agent_type', 'user').title()
+            conversation_context += f"{speaker}: {msg['content']}\n"
+    
+    # Adjust prompt based on round number
+    if round_number <= 2:
+        collaboration_instruction = "Share your initial perspective and analysis."
+    elif round_number <= 5:
+        collaboration_instruction = "Build on previous insights and contribute new ideas."
+    else:
+        collaboration_instruction = "Work toward consensus and help finalize a comprehensive solution."
+    
+    prompt = f"""You are {agent_config['name']}, a {agent_config['role']} in a collaborative AI team.
+
+Topic: {topic}
+
+Your persona: {agent_config['persona']}
+
+Round {round_number} - {collaboration_instruction}
+
+{conversation_context}
+
+Instructions:
+- Engage with other agents' ideas constructively
+- Contribute your unique expertise to the discussion
+- If you see consensus emerging, acknowledge it and help refine the final solution
+- If ready to conclude, clearly state your agreement with the proposed solution
+- Keep responses focused and collaborative (2-3 paragraphs max)
+
+Your response:"""
+
+    api_key = get_next_available_key()
+    headers = {"Authorization": f"Bearer {api_key['apiKey']}"}
+    
+    payload = {
+        "model": agent_config["model"],
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": 400,
+        "temperature": 0.7
+    }
+    
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "https://api.together.ai/v1/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=30.0
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            return result['choices'][0]['message']['content'].strip()
+        else:
+            logger.error(f"Agent generation failed: {response.status_code}")
+            return f"I apologize, but I'm experiencing technical difficulties contributing to this discussion about {topic}."
+
 # API Routes
 @api_router.get("/")
 async def root():
