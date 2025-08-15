@@ -347,6 +347,26 @@ const App = () => {
             </div>
           </div>
         )}
+        
+        {/* Autonomous Collaboration Status */}
+        {isCollaborating && currentConversation && (
+          <div className="flex justify-center mt-2">
+            <div className="flex items-center text-xs px-4 py-2 rounded-lg bg-purple-800 border border-purple-600">
+              <div className="w-3 h-3 bg-purple-400 rounded-full mr-2 animate-ping"></div>
+              <div>
+                <span className="text-purple-200 font-medium">🤖 Autonomous Collaboration</span>
+                <div className="text-purple-300 mt-1">
+                  Round {currentRound}/{maxRounds} • 
+                  {consensusStatus?.reached ? (
+                    <span className="text-green-400 ml-1">Consensus: {(consensusStatus.confidence * 100).toFixed(0)}%</span>
+                  ) : (
+                    <span className="text-yellow-400 ml-1">Seeking consensus...</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex h-screen">
