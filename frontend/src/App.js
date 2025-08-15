@@ -177,8 +177,8 @@ const App = () => {
       setNewTopic('');
       setSelectedAgents([]);
       
-      // Setup WebSocket for real-time updates
-      setupWebSocket(conversationId);
+      // Setup real-time updates (WebSocket with polling fallback)
+      setupRealTimeUpdates(conversationId);
       
       // Load existing messages for this conversation
       await loadConversationMessages(conversationId);
