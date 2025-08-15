@@ -629,23 +629,29 @@ async def websocket_endpoint(websocket: WebSocket, conversation_id: str):
 async def poll_conversation_updates(conversation_id: str):
     """Polling endpoint to get latest messages - WebSocket alternative for restricted environments"""
     try:
-        collection = db["conversations"]
-        conversation = await collection.find_one({"id": conversation_id})
-        
+        # Check if conversation exists
+        conversation = await db.conversations.find_one({"id": conversation_id})
         if not conversation:
             raise HTTPException(status_code=404, detail="Conversation not found")
         
-        # Get messages and format them properly
-        messages = conversation.get("messages", [])
+        # Get messages from the messages collection (same as /messages endpoint)
+        messages = await db.messages.find(
+            {"conversation_id": conversation_id}
+        ).sort("timestamp", 1).to_list(1000)
         
-        # Ensure all messages have proper format
+        # Format messages properly (same format as /messages endpoint)
         formatted_messages = []
         for msg in messages:
+            # Remove MongoDB _id for JSON serialization
+            if "_id" in msg:
+                del msg["_id"]
+            
             formatted_msg = {
                 "id": msg.get("id", ""),
                 "content": msg.get("content", ""),
-                "agent_type": msg.get("agent_type", "user"),
+                "agent_type": msg.get("agent_type"),
                 "timestamp": msg.get("timestamp", datetime.utcnow().isoformat()),
+                "is_user": msg.get("is_user", False),
                 "image_url": msg.get("image_url")
             }
             formatted_messages.append(formatted_msg)
