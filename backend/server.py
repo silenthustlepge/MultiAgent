@@ -601,8 +601,214 @@ async def get_agents():
     """Get available agent types and their configurations"""
     return AGENT_MODELS
 
+@api_router.post("/conversation/autonomous")
+async def start_autonomous_collaboration(request: ConversationStartRequest):
+    """Start autonomous multi-agent collaboration that continues until consensus"""
+    try:
+        conversation_id = str(uuid.uuid4())
+        logger.info(f"Starting autonomous collaboration: {conversation_id}")
+        
+        # Create conversation
+        await db.conversations.insert_one({
+            "id": conversation_id,
+            "topic": request.topic,
+            "agents": request.agents,
+            "collaboration_mode": request.collaboration_mode,
+            "max_rounds": request.max_rounds,
+            "consensus_threshold": request.consensus_threshold,
+            "created_at": datetime.utcnow(),
+            "status": "active",
+            "current_round": 0,
+            "consensus_status": None
+        })
+        
+        # Add initial user message
+        initial_message = ChatMessage(
+            conversation_id=conversation_id,
+            content=f"Topic for collaborative discussion: {request.topic}",
+            agent_type="user",
+            is_user=True
+        )
+        
+        await db.messages.insert_one(initial_message.model_dump())
+        
+        # Broadcast initial message
+        await manager.broadcast(json.dumps({
+            "type": "user_message",
+            "data": initial_message.model_dump()
+        }))
+        
+        # Start autonomous collaboration in background
+        asyncio.create_task(run_autonomous_collaboration(
+            conversation_id, request.topic, request.agents, 
+            request.max_rounds, request.consensus_threshold
+        ))
+        
+        return {
+            "conversation_id": conversation_id,
+            "status": "started",
+            "mode": request.collaboration_mode,
+            "agents": request.agents,
+            "message": "Autonomous collaboration initiated"
+        }
+        
+    except Exception as e:
+        logger.error(f"Error starting autonomous collaboration: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+async def run_autonomous_collaboration(conversation_id: str, topic: str, agents: List[str], max_rounds: int, consensus_threshold: float):
+    """
+    Run autonomous collaboration loop until consensus or max rounds reached
+    """
+    try:
+        logger.info(f"Running autonomous collaboration for {conversation_id}")
+        round_number = 1
+        
+        while round_number <= max_rounds:
+            logger.info(f"Autonomous round {round_number}/{max_rounds} for {conversation_id}")
+            
+            # Get current conversation history
+            messages = await db.messages.find(
+                {"conversation_id": conversation_id}
+            ).sort("timestamp", 1).to_list(1000)
+            
+            # Generate responses from each agent in sequence
+            for agent_type in agents:
+                try:
+                    # Generate agent message with full context
+                    agent_response = await generate_autonomous_agent_message(
+                        agent_type, topic, messages, round_number
+                    )
+                    
+                    # Create agent message
+                    agent_message = ChatMessage(
+                        conversation_id=conversation_id,
+                        content=agent_response,
+                        agent_type=agent_type,
+                        is_user=False
+                    )
+                    
+                    # Save to database
+                    await db.messages.insert_one(agent_message.model_dump())
+                    messages.append(agent_message.model_dump())
+                    
+                    # Broadcast agent message
+                    await manager.broadcast(json.dumps({
+                        "type": "agent_message", 
+                        "data": agent_message.model_dump()
+                    }))
+                    
+                    logger.info(f"Agent {agent_type} contributed to round {round_number}")
+                    
+                    # Brief pause between agents
+                    await asyncio.sleep(2)
+                    
+                except Exception as e:
+                    logger.error(f"Error generating message for agent {agent_type}: {e}")
+                    continue
+            
+            # Check for consensus after each round
+            consensus_status = await detect_consensus(messages, agents, topic)
+            
+            # Update conversation with consensus status
+            await db.conversations.update_one(
+                {"id": conversation_id},
+                {
+                    "$set": {
+                        "current_round": round_number,
+                        "consensus_status": consensus_status.model_dump(),
+                        "last_updated": datetime.utcnow()
+                    }
+                }
+            )
+            
+            # Broadcast consensus status
+            await manager.broadcast(json.dumps({
+                "type": "consensus_update",
+                "data": {
+                    "conversation_id": conversation_id,
+                    "round": round_number,
+                    "consensus": consensus_status.model_dump()
+                }
+            }))
+            
+            # Check if consensus reached
+            if consensus_status.reached and consensus_status.confidence >= consensus_threshold:
+                logger.info(f"Consensus reached in round {round_number} for {conversation_id}")
+                
+                # Generate final consensus message
+                final_message = ChatMessage(
+                    conversation_id=conversation_id,
+                    content=f"🎯 **CONSENSUS REACHED** 🎯\n\n{consensus_status.final_answer}\n\n*Confidence: {consensus_status.confidence:.1%} | Reasoning: {consensus_status.reasoning}*",
+                    agent_type="system",
+                    is_user=False
+                )
+                
+                await db.messages.insert_one(final_message.model_dump())
+                
+                # Broadcast final consensus
+                await manager.broadcast(json.dumps({
+                    "type": "consensus_final",
+                    "data": final_message.model_dump()
+                }))
+                
+                # Mark conversation as completed
+                await db.conversations.update_one(
+                    {"id": conversation_id},
+                    {"$set": {"status": "completed", "completed_at": datetime.utcnow()}}
+                )
+                
+                break
+            
+            round_number += 1
+            
+            # Pause between rounds
+            await asyncio.sleep(3)
+        
+        # If max rounds reached without consensus
+        if round_number > max_rounds:
+            logger.info(f"Max rounds reached for {conversation_id}")
+            
+            final_message = ChatMessage(
+                conversation_id=conversation_id,
+                content=f"⏰ **COLLABORATION CONCLUDED** ⏰\n\nMaximum rounds ({max_rounds}) reached. The agents have shared diverse perspectives on: {topic}\n\n*While full consensus wasn't achieved, valuable insights were exchanged.*",
+                agent_type="system",
+                is_user=False
+            )
+            
+            await db.messages.insert_one(final_message.model_dump())
+            
+            await manager.broadcast(json.dumps({
+                "type": "collaboration_concluded",
+                "data": final_message.model_dump()
+            }))
+            
+            # Mark conversation as concluded
+            await db.conversations.update_one(
+                {"id": conversation_id},
+                {"$set": {"status": "concluded", "completed_at": datetime.utcnow()}}
+            )
+            
+    except Exception as e:
+        logger.error(f"Error in autonomous collaboration: {e}")
+        
+        # Send error message
+        error_message = ChatMessage(
+            conversation_id=conversation_id,
+            content=f"❌ **COLLABORATION ERROR** ❌\n\nAn error occurred during autonomous collaboration: {str(e)}",
+            agent_type="system",
+            is_user=False
+        )
+        
+        await db.messages.insert_one(error_message.model_dump())
+        
+        await manager.broadcast(json.dumps({
+            "type": "collaboration_error",
+            "data": error_message.model_dump()
+        }))
+
 @api_router.post("/conversation/start")
-async def start_conversation(request: ConversationRequest):
+async def start_conversation_legacy(request: ConversationRequest):
     """Start a new multi-agent conversation"""
     conversation_id = str(uuid.uuid4())
     
