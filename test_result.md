@@ -209,9 +209,7 @@ test_plan:
   current_focus:
     - "Real-time WebSocket Chat"
     - "Multi-Agent Chat Interface"
-  stuck_tasks:
-    - "Real-time WebSocket Chat"
-    - "Multi-Agent Chat Interface"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
