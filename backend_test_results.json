@@ -3,7 +3,7 @@
     "test": "Root Endpoint",
     "success": true,
     "details": "Status: 200, Message: Multi-Agent Chat Platform API",
-    "timestamp": "2025-08-15T03:19:59.543316",
+    "timestamp": "2025-08-15T03:57:35.275438",
     "response_data": {
       "message": "Multi-Agent Chat Platform API"
     }
@@ -12,7 +12,7 @@
     "test": "Get Agents",
     "success": true,
     "details": "All 4 agents configured correctly: strategist: Strategist (deepseek-ai/DeepSeek-R1-Distill-Llama-70B), creator: Creator (meta-llama/Llama-3.3-70B-Instruct-Turbo-Free), analyst: Analyst (lgai/exaone-3-5-32b-instruct), visualizer: Visualizer (black-forest-labs/FLUX.1-schnell-Free)",
-    "timestamp": "2025-08-15T03:19:59.557951",
+    "timestamp": "2025-08-15T03:57:35.288971",
     "response_data": {
       "strategist": {
         "name": "Strategist",
@@ -47,10 +47,10 @@
   {
     "test": "Start Conversation",
     "success": true,
-    "details": "Conversation started with ID: 854ac05b-6f74-4a03-9d90-a705ab5f2080",
-    "timestamp": "2025-08-15T03:19:59.607264",
+    "details": "Conversation started with ID: ceca759a-9b87-40f0-93c2-6111f16b7f76",
+    "timestamp": "2025-08-15T03:57:35.320033",
     "response_data": {
-      "conversation_id": "854ac05b-6f74-4a03-9d90-a705ab5f2080",
+      "conversation_id": "ceca759a-9b87-40f0-93c2-6111f16b7f76",
       "status": "started"
     }
   },
@@ -58,7 +58,7 @@
     "test": "Add User Message",
     "success": true,
     "details": "User message added successfully",
-    "timestamp": "2025-08-15T03:19:59.616673",
+    "timestamp": "2025-08-15T03:57:35.340857",
     "response_data": {
       "status": "message_added"
     }
@@ -67,65 +67,76 @@
     "test": "Get Messages",
     "success": true,
     "details": "Retrieved 1 messages",
-    "timestamp": "2025-08-15T03:19:59.625573",
+    "timestamp": "2025-08-15T03:57:35.352168",
     "response_data": {
       "message_count": 1
+    }
+  },
+  {
+    "test": "Polling Endpoint",
+    "success": true,
+    "details": "Polling endpoint working - retrieved 0 messages with proper format",
+    "timestamp": "2025-08-15T03:57:35.402365",
+    "response_data": {
+      "conversation_id": "ceca759a-9b87-40f0-93c2-6111f16b7f76",
+      "messages": [],
+      "total_messages": 0
     }
   },
   {
     "test": "API Stats",
     "success": true,
     "details": "All 8 API keys properly configured and tracked",
-    "timestamp": "2025-08-15T03:19:59.673974",
+    "timestamp": "2025-08-15T03:57:35.412921",
     "response_data": {
       "api_keys": [
         {
           "keyId": "together-ai-CartoonKeeda",
-          "requestCount": 2,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 3.3333333333333335
+          "utilizationPercent": 0.0
         },
         {
           "keyId": "together-key-itspg",
-          "requestCount": 2,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 3.3333333333333335
+          "utilizationPercent": 0.0
         },
         {
           "keyId": "together-key-OneLastTry",
-          "requestCount": 3,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 5.0
+          "utilizationPercent": 0.0
         },
         {
           "keyId": "together-key-SilentHustle",
-          "requestCount": 3,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 5.0
+          "utilizationPercent": 0.0
         },
         {
           "keyId": "together-key-pgCAN",
-          "requestCount": 3,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 5.0
+          "utilizationPercent": 0.0
         },
         {
           "keyId": "together-key-MRGEdits",
-          "requestCount": 3,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 5.0
+          "utilizationPercent": 0.0
         },
         {
           "keyId": "together-key-PTY49",
-          "requestCount": 3,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 5.0
+          "utilizationPercent": 0.0
         },
         {
           "keyId": "together-key-ShopsterZone",
-          "requestCount": 3,
+          "requestCount": 0,
           "rateLimit": 60,
-          "utilizationPercent": 5.0
+          "utilizationPercent": 0.0
         }
       ]
     }
@@ -134,33 +145,24 @@
     "test": "Key Pool Management",
     "success": false,
     "details": "No increase in request count detected",
-    "timestamp": "2025-08-15T03:20:02.720597",
+    "timestamp": "2025-08-15T03:57:38.514242",
     "response_data": null
   },
   {
     "test": "Generate Conversation",
-    "success": true,
-    "details": "Agent conversation generated successfully - Together.ai integration working",
-    "timestamp": "2025-08-15T03:20:43.246401",
-    "response_data": {
-      "status": "conversation_generated"
-    }
-  },
-  {
-    "test": "Agent Message Generation",
-    "success": true,
-    "details": "Generated 9 agent messages",
-    "timestamp": "2025-08-15T03:20:45.259127",
+    "success": false,
+    "details": "Exception: ",
+    "timestamp": "2025-08-15T03:58:38.573314",
     "response_data": null
   },
   {
     "test": "Image Generation",
     "success": true,
-    "details": "Image generated successfully: https://api.together.ai/shrt/lExmMrzwb7fCSn7D",
-    "timestamp": "2025-08-15T03:20:48.368111",
+    "details": "Image generated successfully: https://api.together.ai/shrt/C45UbaWcI4ggY6t2",
+    "timestamp": "2025-08-15T03:58:56.973111",
     "response_data": {
       "status": "image_generated",
-      "url": "https://api.together.ai/shrt/lExmMrzwb7fCSn7D"
+      "url": "https://api.together.ai/shrt/C45UbaWcI4ggY6t2"
     }
   }
 ]
