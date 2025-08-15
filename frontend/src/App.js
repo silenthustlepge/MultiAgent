@@ -147,12 +147,16 @@ const App = () => {
 
     setIsGenerating(true);
     try {
+      console.log('Starting conversation generation for:', currentConversation);
       await axios.post(`${API}/conversation/${currentConversation}/generate`);
+      console.log('Conversation generation completed');
       // Messages will be received via WebSocket
     } catch (error) {
       console.error('Error generating conversation:', error);
     } finally {
       setIsGenerating(false);
+      // Refresh API stats after generation
+      setTimeout(loadApiStats, 1000);
     }
   };
 
