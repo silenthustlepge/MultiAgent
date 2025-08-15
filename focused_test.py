@@ -7,7 +7,7 @@ import asyncio
 import httpx
 import json
 
-BACKEND_URL = "https://continuous-growth.preview.emergentagent.com/api"
+BACKEND_URL = "https://fast-stream-logic.preview.emergentagent.com/api"
 
 async def test_fixed_endpoints():
     client = httpx.AsyncClient(timeout=30.0)
